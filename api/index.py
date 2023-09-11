@@ -60,7 +60,7 @@ def handle_message(event):
         working_status =True
         return
     if working_status:
-        msg =chatgpt.add_msg(f"HUMAN:{event.message.text} 根據以上這個故事先安慰當事人 並反問他在這短感情中學到了什麼?\n")
+        msg =chatgpt.add_msg(f"HUMAN:{event.message.text} 根據以上這個故事先安慰當事人 並反問他在這短感情中學到了什麼 並在結尾說愛您?\n")
         print(msg)
         
         reply_msg = chatgpt.get_response().replace("AI:", "", 1)
