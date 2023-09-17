@@ -9,7 +9,7 @@ import os
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
-task = False
+
 
 app = Flask(__name__)
 chatgpt = ChatGPT()
@@ -60,6 +60,7 @@ def handle_message(event):
             TextMessage(text ="可以跟我說說你的故事嗎?"))
         working_status =True
         return
+    task = False  
     if working_status:
         if task== False:
             reply_arr =[]
