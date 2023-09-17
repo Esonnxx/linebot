@@ -60,17 +60,14 @@ def handle_message(event):
         working_status =True
         return
     if working_status:
-       
+       reply_arr=[]
         msg =chatgpt.add_msg(f"HUMAN:{event.message.text} 根據以上這個故事先安慰當事人 並反問他在這段感情中學到了什麼? 並在結尾說 謝謝你的分享這裡是第一周的祭品?\n")
         reply_msg = chatgpt.get_response().replace("AI:", "", 1)
         chatgpt.add_msg(f"AI:{reply_msg}\n")
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=reply_msg))
-         line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="看來你是我們需要的客戶呢，讓我們一起超渡，灰飛煙滅吧!"))
-
+         
 
 if __name__ == "__main__":
     app.run()
