@@ -67,6 +67,9 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=reply_msg))
+         line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="看來你是我們需要的客戶呢，讓我們一起超渡，灰飛煙滅吧!"))
 
 
 if __name__ == "__main__":
