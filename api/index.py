@@ -10,6 +10,7 @@ line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
 received_story =False
+isArgreed = False
 
 
 app = Flask(__name__)
@@ -83,17 +84,30 @@ def callback():
 def handle_message(event):
     global working_status 
     global received_story
+    global isArgreed
     if event.message.type != "text":
         return
    
     if event.message.text == "我同意":
         handle_agreement(event)
-        process_initial_response(event,chatgpt ,line_bot_api)
+        working_status =True
+        isArgreed =True
+        #
         
     
-    elif working_status and event.message.text == "寫分手信":
+    elif event.message.text == "寫分手信":
         handle_writeLetter(event)
+        working_status =True
+        received_story = True
+        #process_user_story(event, chatgpt, line_bot_api)
+    
+
+    if working_status and isArgreed:
+        process_initial_response(event,chatgpt ,line_bot_api)
+    elif  working_status and received_story:
         process_user_story(event, chatgpt, line_bot_api)
+
+        
             
     #if received_story:
         #process_user_story(event, chatgpt, line_bot_api)
