@@ -72,7 +72,7 @@ def callback():
         abort(400)
     return 'OK'
 
-
+received_story = False
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global working_status 
