@@ -18,16 +18,14 @@ chatgpt = ChatGPT()
 def handle_agreement(event):
     global working_status
     if event.message.text =="我同意":
-        working_status = False
         line_bot_api.reply_message(
             event.reply_token,
-            TextMessage(text="可以跟我說說你的故事嗎"))
+            TextMessage(text="可以跟我說說你的故事嗎1"))
         working_status = True
         
 def handle_writeLetter(event):
     global working_status
     if event.message.text =="寫分手信":
-        working_status = False
         line_bot_api.reply_message(
             event.reply_token,
             TextMessage(text="試著選一個關鍵詞來寫一封分手信吧!請不要發出去，只有你我知道，請選擇一個關鍵詞:熱烈的 平淡的 深刻的 以我們有過XX的戀情，來開頭"))
