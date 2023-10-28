@@ -24,6 +24,7 @@ def handle_agreement(event):
         working_status = True
         return
 
+
 # domain root
 @app.route('/')
 def home():
@@ -46,13 +47,12 @@ def callback():
 
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    task1 = False
+    task1 = False  
     global working_status
     if event.message.type != "text":
         return
 
-    
-   if event.message.text == "我同意":
+    if event.message.text == "我同意":
         handle_agreement(event)
     
     
