@@ -9,6 +9,7 @@ import os
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
+received_story =False
 
 
 app = Flask(__name__)
@@ -20,7 +21,7 @@ def handle_agreement(event):
         working_status = False
         line_bot_api.reply_message(
             event.reply_token,
-            TextMessage(text="可以跟我說說你的故事嗎1?"))
+            TextMessage(text="可以跟我說說你的故事嗎2?"))
         working_status = True
         return
     
@@ -72,7 +73,7 @@ def callback():
         abort(400)
     return 'OK'
 
-received_story = False
+
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global working_status 
