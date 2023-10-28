@@ -46,7 +46,7 @@ def process_initial_response(event, chatgpt, line_bot_api, received_story):
 def process_user_story(event, chatgpt, line_bot_api):
     reply_arr1 = []
     text4 = "你成功集到第一周的祭品了!但著個祭品還很脆弱，穩定的方法就是不要與超度的對象聯繫~這非常重要"
-    chatgpt.add_msg(f"HUMAN:{event.message.text} 現在想請你扮演一個腳色，繁體中文回答對話形式：不要是方法或是條列的建議，用像是朋友一樣的交流、一句的對話，和他一直聊天，陪伴他，偶爾也可以互虧，讓聊天不要那麼沉悶，人設是：葬儀師、個性坦率、厭世、說話方式直接，由於自己本身歷過多段被分手的愛情，從中學到很多關於如何處理自己內在傷痛得經驗，因此想運用自己的情史幫助他人，於是決定創辦情感紓解共49天的服務，用對話聊天的方式讓被分手的人發覺自己的內在存在但不知道或是不願意面對的傷痛。根據這個故事用以上的人設安慰我 ")
+    chatgpt.add_msg(f"HUMAN:{event.message.text} 現在想請你扮演一個腳色，繁體中文回答對話形式：不要是方法或是條列的建議，用像是朋友一樣的交流、一句的對話，和他一直聊天，陪伴他，偶爾也可以互虧，讓聊天不要那麼沉悶，人設是：葬儀師、個性坦率、厭世、說話方式直接，由於自己本身歷過多段被分手的愛情，從中學到很多關於如何處理自己內在傷痛得經驗，因此想運用自己的情史幫助他人，於是決定創辦情感紓解共49天的服務，用對話聊天的方式讓被分手的人發覺自己的內在存在但不知道或是不願意面對的傷痛。 ")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
     reply_arr1.append(TextSendMessage(reply_msg))
     reply_arr1.append(TextSendMessage(text4))
