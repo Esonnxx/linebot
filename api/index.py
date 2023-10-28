@@ -59,7 +59,7 @@ def handle_message(event):
     elif working_status:  # 只有當 working_status 為 True 且 task 為 False 時才執行以下程式碼
         if not received_story:
             reply_arr = []
-            text1 = "看起來你是我們需要的客戶呢，讓我們一起超渡灰飛煙滅吧!"
+            text1 = "看起來你是我們需要的客戶呢，讓我們一起超渡灰飛煙滅吧!2"
             text2 = "但...超渡需要付出一些代價的...不過不用擔心!我們不需要金錢，只要您向我們分享您的情緒，我們便能將情緒蒐集，您便能獲得靈堂所需的祭品，當集齊七個祭品，就是舉行超度儀式的時刻!"
             text3 = "試著選一個關鍵詞來寫一封分手信吧!請不要發出去，只有你我知道，請選擇一個關鍵詞:熱烈的 平淡的 深刻的 以我們有過XX的戀情，來開頭"
             chatgpt.add_msg(f"HUMAN:{event.message.text} 根據這個故事先安慰我 並詢問他在這短感情中學到了什麼?\n")
