@@ -57,7 +57,24 @@ def handle_day2(event):
     global working_status
     url = "http://benevolence.page.s3-website-ap-northeast-1.amazonaws.com/"
     if event.message.text =="第二天療程":
-        message_text = "今天是第二天，我們需要完成四十九天的等待與儀式。要多做善行以維持天平的穩定，試試到善行靈堂看看吧~入口：選單左上角(善行靈堂連結)有任何問題都可以問我🗝仇愁得報(建議晚上使用){}".format(url)
+        message_text = "今天是第二天，我們需要完成四十九天的等待與儀式。要多做善行以維持天平的穩定，試試到善行靈堂看看吧~入口：選單左上角(善行靈堂連結)有任何問題都可以問我🗝仇愁得報(建議晚上使用)想進行第三天療程請打<第三天療程>{}".format(url)
+        line_bot_api.reply_message(
+            event.reply_token,TextMessage(text=message_text)
+        )
+        working_status = True
+def handle_day3(event):
+    global working_status
+    url = "http://benevolence.page.s3-website-ap-northeast-1.amazonaws.com/"
+    if event.message.text =="第三天療程":
+        message_text = "今天是第三天晚上， 希望你今天充滿仇恨 由於你昨天實施善行，因此你獲得發洩仇恨的機會，請前往報仇靈堂！ 入口：選單右上角(報仇靈堂連結) 如果你回得來，🗝茫'{}".format(url)
+        line_bot_api.reply_message(
+            event.reply_token,TextMessage(text=message_text)
+        )
+        working_status = True
+def handle_day4(event):
+    global working_status
+    if event.message.text =="第四天療程":
+        message_text = "今天是第四天，都說養成習慣需要21天，你這3天就習慣我的存在了嗎？好好好，開個玩笑，昨天的儀式感覺如何呀？"
         line_bot_api.reply_message(
             event.reply_token,TextMessage(text=message_text)
         )
@@ -83,7 +100,7 @@ def process_initial_response(event, chatgpt, line_bot_api):
 
 def process_user_story(event, chatgpt, line_bot_api):
     reply_arr1 = []
-    text4 = "你成功集到第一周的祭品了!但著個祭品還很脆弱，穩定的方法就是不要與超度的對象聯繫~這非常重要 如果想接受第二周療程請打 第二天療程"
+    text4 = "你成功集到第一周的祭品了!但著個祭品還很脆弱，穩定的方法就是不要與超度的對象聯繫~這非常重要 如果想接受第二天療程請打 第二天療程"
     chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，用對話聊天的方式詢問我在這段感情學到了什麼。請你扮演一個人設是：葬儀師、個性坦率、厭世、說話方式直接，但請不要跟我表示你的人設")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
     reply_arr1.append(TextSendMessage(reply_msg))
@@ -142,6 +159,12 @@ def handle_message(event):
         working_status = True
         # 启动定时任务
         scheduler.start()
+    elif event.message.text == "第三天療程":
+        handle_day3(event)
+        working_status = True
+    elif event.message.text == "第四天療程":
+        handle_day4(event)
+        working_status = True
 
     
 
