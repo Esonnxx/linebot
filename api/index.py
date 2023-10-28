@@ -73,7 +73,7 @@ def handle_message(event):
             #給予第一個回應
             line_bot_api.reply_message(
                 event.reply_token,
-                TextMessage(text="謝謝你分享你的故事。" + reply_arr))
+                reply_arr)
             received_story = True  # 設置為已收到故事的狀態
             
     else:
