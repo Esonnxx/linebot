@@ -4,6 +4,7 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from api.chatgpt import ChatGPT
 from apscheduler.schedulers.background import BackgroundScheduler
+from linebot.models.events import FollowEvent, MessageEvent, TextMessage
 
 import os
 
@@ -108,16 +109,14 @@ def callback():
         line_handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
-    events = line_bot_api.parse_request(body)
 
-    for event in events:
-        if isinstance(event, MessageEvent):
-            # 当有用户关注事件发生时，将用户ID添加到列表
-            user_id = event.source.user_id
-            user_ids.add(user_id)
     return 'OK'
 
-
+# 处理关注事件
+@line_handler.add(FollowEvent)
+def handle_follow(event):
+    user_id = event.source.user_id
+    user_ids.add(user_id)
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global working_status 
