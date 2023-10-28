@@ -29,6 +29,7 @@ def handle_agreement(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextMessage(text="試著選一個關鍵詞來寫一封分手信吧!請不要發出去，只有你我知道，請選擇一個關鍵詞:熱烈的 平淡的 深刻的 以我們有過XX的戀情，來開頭"))
+        working_status = True
         process_user_story(event, chatgpt, line_bot_api)
     
 def process_initial_response(event, chatgpt, line_bot_api):
