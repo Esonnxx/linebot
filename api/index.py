@@ -111,6 +111,7 @@ def handle_message(event):
         #process_user_story(event, chatgpt, line_bot_api)
     elif event.message.text == "第二天療程":
         handle_day2(event)
+        working_status = True
 
     
 
