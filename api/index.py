@@ -75,7 +75,8 @@ def callback():
 
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global working_status, received_story
+    global working_status 
+    global received_story
     if event.message.type != "text":
         return
    
