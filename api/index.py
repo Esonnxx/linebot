@@ -21,7 +21,7 @@ def handle_agreement(event):
     if event.message.text =="我同意":
         line_bot_api.reply_message(
             event.reply_token,
-            TextMessage(text="可以跟我說說你的故事嗎2"))
+            TextMessage(text="可以跟我說說你的故事嗎3"))
         working_status = True
         
 def handle_writeLetter(event):
