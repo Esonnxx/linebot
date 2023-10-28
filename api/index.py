@@ -46,6 +46,7 @@ def callback():
 
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    task1 = False
     global working_status
     if event.message.type != "text":
         return
@@ -55,7 +56,7 @@ def handle_message(event):
         handle_agreement(event)
     
     
-    elif working_status and not task:  # 只有當 working_status 為 True 且 task 為 False 時才執行以下程式碼
+    elif working_status and not task1:  # 只有當 working_status 為 True 且 task 為 False 時才執行以下程式碼
         reply_arr = []
         text1 = "看起來你是我們需要的客戶呢，讓我們一起超渡灰飛煙滅吧!"
         text2 = "但...超渡需要付出一些代價的...不過不用擔心!我們不需要金錢，只要您向我們分享您的情緒，我們便能將情緒蒐集，您便能獲得靈堂所需的祭品，當集齊七個祭品，就是舉行超度儀式的時刻!"
@@ -70,7 +71,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             reply_arr)
-        task = True
+        task1 = True
     else:
         reply_arr1 = []
         text4 = "你成功集到第一周的祭品了!但著個祭品還很脆弱，穩定的方法就是不要與超度的對象聯繫~這非常重要"
