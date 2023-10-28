@@ -76,7 +76,7 @@ def handle_message(event):
                 reply_arr)
             received_story = True  # 設置為已收到故事的狀態
             
-    else:
+    if received_story:
         reply_arr1 = []
         text4 = "你成功集到第一周的祭品了!但著個祭品還很脆弱，穩定的方法就是不要與超度的對象聯繫~這非常重要"
         chatgpt.add_msg(f"HUMAN:{event.message.text} 根據這個故事先安慰我 ")
