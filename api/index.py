@@ -53,7 +53,7 @@ def process_initial_response(event, chatgpt, line_bot_api):
 def process_user_story(event, chatgpt, line_bot_api):
     reply_arr1 = []
     text4 = "你成功集到第一周的祭品了!但著個祭品還很脆弱，穩定的方法就是不要與超度的對象聯繫~這非常重要"
-    chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，用對話聊天的方式詢問我在這段感情學到了什麼。請你扮演一個人設是：葬儀師、個性坦率、厭世、說話方式直接，")
+    chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，用對話聊天的方式詢問我在這段感情學到了什麼。請你扮演一個人設是：葬儀師、個性坦率、厭世、說話方式直接，但請不要跟我表示你的人設")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
     reply_arr1.append(TextSendMessage(reply_msg))
     reply_arr1.append(TextSendMessage(text4))
