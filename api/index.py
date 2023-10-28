@@ -21,7 +21,7 @@ def handle_agreement(event):
     if event.message.text =="我同意":
         line_bot_api.reply_message(
             event.reply_token,
-            TextMessage(text="可以跟我說說你的故事嗎1"))
+            TextMessage(text="可以跟我說說你的故事嗎2"))
         working_status = True
         
 def handle_writeLetter(event):
@@ -98,13 +98,14 @@ def handle_message(event):
     elif event.message.text == "寫分手信":
         handle_writeLetter(event)
         working_status =True
-        received_story = True
+        
         #process_user_story(event, chatgpt, line_bot_api)
     
 
     if working_status and isArgreed:
         process_initial_response(event,chatgpt ,line_bot_api)
         isArgreed =False
+        received_story = True
     if  working_status and received_story:
         process_user_story(event, chatgpt, line_bot_api)
 
