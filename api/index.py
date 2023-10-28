@@ -56,7 +56,7 @@ def handle_message(event):
         received_story = False
     
     
-    elif working_status:  # 只有當 working_status 為 True 且 task 為 False 時才執行以下程式碼
+    elif working_status:  
         if not received_story:
             reply_arr = []
             text1 = "看起來你是我們需要的客戶呢，讓我們一起超渡灰飛煙滅吧!2222"
@@ -69,10 +69,11 @@ def handle_message(event):
             reply_arr.append(TextSendMessage(text1))
             reply_arr.append(TextSendMessage(text2))
             reply_arr.append(TextSendMessage(text3))
+            
             #給予第一個回應
             line_bot_api.reply_message(
                 event.reply_token,
-                TextMessage(text="謝謝你分享你的故事。" + reply_msg))
+                TextMessage(text="謝謝你分享你的故事。" + reply_arr))
             received_story = True  # 設置為已收到故事的狀態
             
     else:
