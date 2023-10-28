@@ -69,9 +69,11 @@ def handle_message(event):
             reply_arr.append(TextSendMessage(text1))
             reply_arr.append(TextSendMessage(text2))
             reply_arr.append(TextSendMessage(text3))
+            #給予第一個回應
             line_bot_api.reply_message(
                 event.reply_token,
-                reply_arr)
+                TextMessage(text="謝謝你分享你的故事。" + reply_msg))
+            received_story = True  # 設置為已收到故事的狀態
             
     else:
         reply_arr1 = []
