@@ -17,6 +17,7 @@ line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
 received_story =False
 isArgreed = False
+day4State = False
 
 
 
@@ -108,6 +109,16 @@ def process_user_story(event, chatgpt, line_bot_api):
     chatgpt.add_msg(f"AI:{reply_msg}\n")
     line_bot_api.reply_message(event.reply_token, reply_arr1)
 
+def process_day4_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text= "如果有不了解的，可以到幫助中心尋求協助入口:選單左下角(連結)"
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答，回應我對儀式的感受")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
 # domain root
 @app.route('/')
 def home():
@@ -139,6 +150,7 @@ def handle_message(event):
     global working_status 
     global received_story
     global isArgreed
+    global day4State
     if event.message.type != "text":
         return
    
@@ -165,6 +177,7 @@ def handle_message(event):
     elif event.message.text == "第四天療程":
         handle_day4(event)
         working_status = True
+        day4State = True
 
     
 
@@ -175,6 +188,11 @@ def handle_message(event):
     if  working_status and received_story:
         process_user_story(event, chatgpt, line_bot_api)
         received_story = False
+
+    if working_status and day4State:
+        process_day4_message(event, chatgpt, line_bot_api)
+        day4State =False
+
           
    
 if __name__ == "__main__":
