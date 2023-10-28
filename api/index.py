@@ -20,7 +20,7 @@ def handle_agreement(event):
         working_status = False
         line_bot_api.reply_message(
             event.reply_token,
-            TextMessage(text="可以跟我說說你的故事嗎?"))
+            TextMessage(text="可以跟我說說你的故事嗎1?"))
         working_status = True
         return
     
