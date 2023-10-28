@@ -20,11 +20,11 @@ def handle_agreement(event):
         working_status = False
         line_bot_api.reply_message(
             event.reply_token,
-            TextMessage(text="可以跟我說說你的故事嗎1?"))
+            TextMessage(text="可以跟我說說你的故事嗎2?"))
         working_status = True
         return
     
-def process_intitial_response(event, chatgpt, line_bot_api, received_story):
+def process_initial_response(event, chatgpt, line_bot_api, received_story):
     reply_arr = []
     text1 = "看起來你是我們需要的客戶呢，讓我們一起超渡灰飛煙滅吧!"
     text2 = "但...超渡需要付出一些代價的...不過不用擔心!我們不需要金錢，只要您向我們分享您的情緒，我們便能將情緒蒐集，您便能獲得靈堂所需的祭品，當集齊七個祭品，就是舉行超度儀式的時刻!"
@@ -86,7 +86,7 @@ def handle_message(event):
     
     elif working_status:  
         if not received_story:
-            process_intitial_response(event, chatgpt, line_bot_api, received_story)
+            received_story = process_initial_response(event, chatgpt, line_bot_api, received_story)
             
     if received_story:
         process_user_story(event, chatgpt, line_bot_api)
