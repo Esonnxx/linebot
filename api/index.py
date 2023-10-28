@@ -23,7 +23,7 @@ def handle_agreement(event):
             event.reply_token,
             TextMessage(text="可以跟我說說你的故事嗎"))
         working_status = True
-        return
+        
 def handle_writeLetter(event):
     global working_status
     if event.message.text =="寫分手信":
@@ -90,6 +90,7 @@ def handle_message(event):
    
     if event.message.text == "我同意":
         handle_agreement(event)
+        process_initial_response(event,chatgpt ,line_bot_api)
         
     
     elif working_status and event.message.text == "寫分手信":
