@@ -97,15 +97,15 @@ def handle_message(event):
     
     elif event.message.text == "寫分手信":
         handle_writeLetter(event)
-        working_status =True
-        
+        working_status = True
+        received_story = True
         #process_user_story(event, chatgpt, line_bot_api)
     
 
     if working_status and isArgreed:
         process_initial_response(event,chatgpt ,line_bot_api)
         isArgreed =False
-        received_story = True
+        
     if  working_status and received_story:
         process_user_story(event, chatgpt, line_bot_api)
 
