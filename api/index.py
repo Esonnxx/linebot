@@ -37,7 +37,7 @@ def process_initial_response(event, chatgpt, line_bot_api):
     reply_arr = []
     text1 = "看起來你是我們需要的客戶呢，讓我們一起超渡灰飛煙滅吧!"
     text2 = "但...超渡需要付出一些代價的...不過不用擔心!我們不需要金錢，只要您向我們分享您的情緒，我們便能將情緒蒐集，您便能獲得靈堂所需的祭品，當集齊七個祭品，就是舉行超度儀式的時刻! 請打寫分手信"
-    chatgpt.add_msg(f"HUMAN:{event.message.text} 現在想請你扮演一個腳色，用像是朋友一樣的交流、一句的對話，和我一直聊天，陪伴我，偶爾也可以互虧，讓聊天不要那麼沉悶，人設是：葬儀師、個性坦率、厭世、說話方式直接，歷過多段被分手的愛情，從中學到很多關於如何處理自己內在傷痛得經驗，用對話聊天的方式讓我發覺自己的內在存在但不知道或是不願意面對的傷痛。根據這個故事用以上的人設先安慰我 並用剛剛的人設詢問我在這短感情中學到了什麼?\n")
+    chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，先安慰我並用人設詢問我在這短感情中學到了什麼?。請你扮演一個人設是：葬儀師、個性坦率、厭世、說話方式直接 \n")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
     chatgpt.add_msg(f"AI:{reply_msg}\n")
     reply_arr.append(TextSendMessage(reply_msg))
@@ -53,7 +53,7 @@ def process_initial_response(event, chatgpt, line_bot_api):
 def process_user_story(event, chatgpt, line_bot_api):
     reply_arr1 = []
     text4 = "你成功集到第一周的祭品了!但著個祭品還很脆弱，穩定的方法就是不要與超度的對象聯繫~這非常重要"
-    chatgpt.add_msg(f"HUMAN:{event.message.text} 現在想請你扮演一個腳色，用像是朋友一樣的交流、一句的對話，和我一直聊天，陪伴我，偶爾也可以互虧，讓聊天不要那麼沉悶，人設是：葬儀師、個性坦率、厭世、說話方式直接，歷過多段被分手的愛情，從中學到很多關於如何處理自己內在傷痛得經驗，用對話聊天的方式讓我發覺自己的內在存在但不知道或是不願意面對的傷痛。 ")
+    chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，用對話聊天的方式詢問我在這段感情學到了什麼。請你扮演一個人設是：葬儀師、個性坦率、厭世、說話方式直接，")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
     reply_arr1.append(TextSendMessage(reply_msg))
     reply_arr1.append(TextSendMessage(text4))
