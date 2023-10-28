@@ -3,8 +3,13 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from api.chatgpt import ChatGPT
+from apscheduler.schedulers.background import BackgroundScheduler
 
 import os
+
+
+
+
 
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
@@ -13,8 +18,24 @@ received_story =False
 isArgreed = False
 
 
+
 app = Flask(__name__)
+# 存储用户ID的列表
+user_ids = set()
+message_interval_minutes = 1
+
+# 定义要发送的消息内容
+message_text = '今天是第三天晚上， 希望你今天充滿仇恨 由於你昨天實施善行，因此你獲得發洩仇恨的機會，請前往報仇靈堂！ 入口：選單右上角(報仇靈堂連結) 如果你回得來，🗝茫'
 chatgpt = ChatGPT()
+scheduler = BackgroundScheduler()
+def send_message_to_users():
+    for user_id in user_ids:
+        message = TextSendMessage(text=message_text)
+        line_bot_api.push_message(user_id, message)
+
+# 设置定时任务，每5分钟执行一次
+scheduler.add_job(send_message_to_users, 'interval', minutes=message_interval_minutes)
+
 
 def handle_agreement(event):
     global working_status
@@ -82,10 +103,18 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
     # handle webhook body
+
     try:
         line_handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
+    events = line_bot_api.parse_request(body)
+
+    for event in events:
+        if isinstance(event, MessageEvent):
+            # 当有用户关注事件发生时，将用户ID添加到列表
+            user_id = event.source.user_id
+            user_ids.add(user_id)
     return 'OK'
 
 
@@ -112,6 +141,8 @@ def handle_message(event):
     elif event.message.text == "第二天療程":
         handle_day2(event)
         working_status = True
+        # 启动定时任务
+        scheduler.start()
 
     
 
