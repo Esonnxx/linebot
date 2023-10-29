@@ -131,7 +131,7 @@ def handle_day9(event):
 def handle_readySection(event):
     global working_status
     reply_arr =[]
-    if event.message.text =="準備":
+    if event.message.text =="我準備好了":
         text = "看來你已經準備好了，那我出一個任務給你，請寫一個奠文"
         text1 = "關鍵詞：憤怒、傷心、不解請您挑選出一個符合您現在感受的關鍵詞並填入開頭，以第一人稱我，起筆二周奠文我感到{關鍵詞}開頭"
         reply_arr.append(TextSendMessage(text))
