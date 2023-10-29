@@ -19,6 +19,7 @@ received_story =False
 isArgreed = False
 day4State = False
 day5State =False
+weekendState =False
 
 
 
@@ -93,6 +94,15 @@ def handle_day5(event):
         line_bot_api.reply_message(
             event.reply_token,reply_arr)
         working_status = True
+def handle_weekend(event):
+    global working_status
+    reply_arr =[]
+    if event.message.text =="假日療程":
+        text = "今天是我的休假日，但我還是會陪你的，今天有什麼想說的嗎？單身這幾天的你有什麼感覺？"
+        reply_arr.append(TextSendMessage(text))
+        line_bot_api.reply_message(
+            event.reply_token,reply_arr)
+        working_status = True
         
     
 def process_initial_response(event, chatgpt, line_bot_api):
@@ -135,7 +145,15 @@ def process_day4_message(event, chatgpt, line_bot_api):
     line_bot_api.reply_message(event.reply_token, reply_arr)
 def process_day5_message(event, chatgpt, line_bot_api):
     chatgpt.add_msg(
-        f"{event.message.text} 根據以上回答，以正面的方式回應我，並在最後跟我說我是一個什麼樣的人，鼓勵我可以迎接更好的的自己")
+        f"{event.message.text} 根據以上回答，以正面的方式回應我，並在最後跟我說我是一個什麼樣的人及鼓勵我可以迎接更好的的自己")
+    reply_gptMsg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_msg = TextSendMessage(text=reply_gptMsg)
+    line_bot_api.reply_message(event.reply_token, reply_msg)
+def process_weekend_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text = "如果想進行接下來的療程 請打<第二週療程>"
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答，以正面的方式回應我，並陪我聊聊天")
     reply_gptMsg = chatgpt.get_response().replace("AI:", "", 1)
     reply_msg = TextSendMessage(text=reply_gptMsg)
     line_bot_api.reply_message(event.reply_token, reply_msg)
@@ -173,6 +191,7 @@ def handle_message(event):
     global isArgreed
     global day4State
     global day5State
+    global  weekendState
     if event.message.type != "text":
         return
    
@@ -203,6 +222,10 @@ def handle_message(event):
         handle_day5(event)
         working_status = True
         day5State = True
+    elif event.message.text == "假日療程":
+        handle_weekend(event)
+        working_status = True
+        weekendState = True
 
     
 
@@ -220,6 +243,9 @@ def handle_message(event):
     if working_status and day5State:
         process_day5_message(event, chatgpt, line_bot_api)
         day5State =False
+    if working_status and day5State:
+        process_weekend_message(event, chatgpt, line_bot_api)
+        weekendState = False
 
           
    
