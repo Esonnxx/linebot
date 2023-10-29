@@ -136,7 +136,8 @@ def process_day4_message(event, chatgpt, line_bot_api):
 def process_day5_message(event, chatgpt, line_bot_api):
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答，以正面的方式回應我，並在最後跟我說我是一個什麼樣的人，鼓勵我可以迎接更好的的自己")
-    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_gptMsg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_msg = TextSendMessage(text=reply_gptMsg)
     line_bot_api.reply_message(event.reply_token, reply_msg)
 
 # domain root
