@@ -335,7 +335,7 @@ def handle_message(event):
     if working_status and week2day1State:
         process_week2day1_message(event, chatgpt, line_bot_api)
     if working_status and day9State:
-        process_week2day1_message(event, chatgpt, line_bot_api)
+        process_day9_message(event, chatgpt, line_bot_api)
     if working_status and readyState:
         process_ready_message(event, chatgpt, line_bot_api)
 
