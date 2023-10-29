@@ -295,7 +295,7 @@ def process_day11_message(event, chatgpt, line_bot_api):
     text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十二天療程>"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答 以正面的方式回應我")
-    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_msg = chatgpt.get_response()
     reply_arr.append(TextSendMessage(reply_msg))
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
@@ -305,7 +305,7 @@ def process_day12_message(event, chatgpt, line_bot_api):
     text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十三天療程>"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答 以正面的方式回應我")
-    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_msg = chatgpt.get_response()
     reply_arr.append(TextSendMessage(reply_msg))
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
@@ -314,8 +314,8 @@ def process_day13_message(event, chatgpt, line_bot_api):
     reply_arr = []
     text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十四天療程>"
     chatgpt.add_msg(
-        f"{event.message.text} 根據以上回答 以正面的方式回應我")
-    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+        f"{event.message.text} 根據以上回答 以正面的方式回覆")
+    reply_msg = chatgpt.get_response()
     reply_arr.append(TextSendMessage(reply_msg))
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
@@ -325,7 +325,7 @@ def process_day14_message(event, chatgpt, line_bot_api):
     text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十五天療程>"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答 以正面的方式回應我")
-    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_msg = chatgpt.get_response()
     reply_arr.append(TextSendMessage(reply_msg))
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
