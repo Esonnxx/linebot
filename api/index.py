@@ -24,6 +24,7 @@ week2day1State = False
 day9State = False
 readyState = False
 day10State = False
+day11State =False
 
 
 app = Flask(__name__)
@@ -148,6 +149,15 @@ def handle_day10(event):
         line_bot_api.reply_message(
             event.reply_token,reply_arr)
         working_status = True
+def handle_day11(event):
+    global working_status
+    reply_arr =[]
+    if event.message.text =="第十一天療程":
+        text = "今天是第十一天，本周的任務還剩下2/3 看來你已經準備好了，那我在出一個任務給你，請寫一個奠文 關鍵詞：憤怒、傷心、不解請您挑選出一個符合您現在感受的關鍵詞並填入開頭，以第二人稱你，起筆二周奠文你感到{關鍵詞}開頭"
+        reply_arr.append(TextSendMessage(text))
+        line_bot_api.reply_message(
+            event.reply_token,reply_arr)
+        working_status = True
 
     
 def process_initial_response(event, chatgpt, line_bot_api):
@@ -220,7 +230,7 @@ def process_week2day1_message(event, chatgpt, line_bot_api):
 
 def process_day9_message(event, chatgpt, line_bot_api):
     reply_arr = []
-    text = "嗯～我感受不到你的情緒，你<準備>獲得第二個法器了嗎? 準備好請打<準備>"
+    text = "嗯～我感受不到你的情緒，你<準備>獲得第二個法器了嗎? 準備好請打<我準備好了>"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答 以正面的方式回應我 並陪我聊聊天")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
@@ -241,6 +251,15 @@ def process_ready_message(event, chatgpt, line_bot_api):
 def process_day10_message(event, chatgpt, line_bot_api):
     reply_arr = []
     text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十一天療程>"
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答 以正面的方式回應我")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day11_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十二天療程>"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答 以正面的方式回應我")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
@@ -286,6 +305,7 @@ def handle_message(event):
     global day9State
     global readyState
     global day10State
+    global day11State
     if event.message.type != "text":
         return
    
@@ -331,7 +351,7 @@ def handle_message(event):
         working_status = True
         day9State= True
 
-    elif event.message.text == "準備":
+    elif event.message.text == "我準備好了":
         day9State = False
         handle_readySection(event)
         working_status = True
@@ -341,6 +361,11 @@ def handle_message(event):
         handle_day10(event)
         working_status = True
         day10State= True
+    elif event.message.text == "第十一天療程":
+        day10State = False
+        handle_day11(event)
+        working_status = True
+        day11State= True
 
 
     
@@ -369,6 +394,8 @@ def handle_message(event):
         process_ready_message(event, chatgpt, line_bot_api)
     if working_status and day10State:
         process_day10_message(event, chatgpt, line_bot_api)
+    if working_status and day11State:
+        process_day11_message(event, chatgpt, line_bot_api)
 
 
 
