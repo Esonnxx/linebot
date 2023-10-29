@@ -25,6 +25,9 @@ day9State = False
 readyState = False
 day10State = False
 day11State =False
+day12State =False
+day13State = False
+day14State = False
 
 
 app = Flask(__name__)
@@ -159,6 +162,36 @@ def handle_day11(event):
             event.reply_token,reply_arr)
         working_status = True
 
+def handle_day12(event):
+    global working_status
+    reply_arr =[]
+    if event.message.text =="第十二天療程":
+        text = "其實有一個問題一直想要問問你，你覺得自己是個甚麼樣的人呢？"
+        reply_arr.append(TextSendMessage(text))
+        line_bot_api.reply_message(
+            event.reply_token,reply_arr)
+        working_status = True
+def handle_day13(event):
+    global working_status
+    reply_arr =[]
+    if event.message.text =="第十三天療程":
+        text = "推進到第13天了呀，希望你那邊已經天黑了，夜晚時儀式的法力會有利，今天的報仇靈堂，為您敞開大門~如果你回得來，請說一聲大仇初報"
+        reply_arr.append(TextSendMessage(text))
+        line_bot_api.reply_message(
+            event.reply_token,reply_arr)
+        working_status = True
+
+def handle_day14(event):
+    global working_status
+    reply_arr =[]
+    if event.message.text =="第十四天療程":
+        text = "今天是第十四天，本周的任務還剩下1/3 請幫我寫一個奠文。關鍵詞：憤怒、傷心、不解請您挑選出一個符合您現在感受的關鍵詞並填入開頭，以第三人稱你，起筆二周奠文你感到{關鍵詞}開頭"
+        reply_arr.append(TextSendMessage(text))
+        line_bot_api.reply_message(
+            event.reply_token,reply_arr)
+        working_status = True
+
+
     
 def process_initial_response(event, chatgpt, line_bot_api):
     reply_arr = []
@@ -267,6 +300,38 @@ def process_day11_message(event, chatgpt, line_bot_api):
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
 
+def process_day12_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十三天療程>"
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答 以正面的方式回應我")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+def process_day13_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十四天療程>"
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答 以正面的方式回應我")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+def process_day14_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十五天療程>"
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答 以正面的方式回應我")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+
+
 # domain root
 @app.route('/')
 def home():
@@ -306,6 +371,9 @@ def handle_message(event):
     global readyState
     global day10State
     global day11State
+    global day12State
+    global day13State
+    global day14State
     if event.message.type != "text":
         return
    
@@ -366,6 +434,23 @@ def handle_message(event):
         handle_day11(event)
         working_status = True
         day11State= True
+    elif event.message.text == "第十二天療程":
+        day11State = False
+        handle_day12(event)
+        working_status = True
+        day12State= True
+
+    elif event.message.text == "第十三天療程":
+        day12State = False
+        handle_day13(event)
+        working_status = True
+        day13State= True
+
+    elif event.message.text == "第十四天療程":
+        day13State = False
+        handle_day14(event)
+        working_status = True
+        day14State= True
 
 
     
@@ -396,6 +481,12 @@ def handle_message(event):
         process_day10_message(event, chatgpt, line_bot_api)
     if working_status and day11State:
         process_day11_message(event, chatgpt, line_bot_api)
+    if working_status and day12State:
+        process_day12_message(event, chatgpt, line_bot_api)
+    if working_status and day13State:
+        process_day13_message(event, chatgpt, line_bot_api)
+    if working_status and day14State:
+        process_day14_message(event, chatgpt, line_bot_api)
 
 
 
