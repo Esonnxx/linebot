@@ -20,7 +20,9 @@ isArgreed = False
 day4State = False
 day5State =False
 weekendState =False
-
+week2day1State = False
+day9State = False
+readyState = False
 
 
 app = Flask(__name__)
@@ -103,7 +105,38 @@ def handle_weekend(event):
         line_bot_api.reply_message(
             event.reply_token,reply_arr)
         working_status = True
-        
+
+def handle_week2day1(event):
+    global working_status
+    reply_arr =[]
+    if event.message.text =="第二週療程":
+        text = "恭喜！順利進入第二階段，愛情應該沒有這麼容易被釋懷吧？"
+        reply_arr.append(TextSendMessage(text))
+        line_bot_api.reply_message(
+            event.reply_token,reply_arr)
+        working_status = True
+
+def handle_day9(event):
+    global working_status
+    reply_arr =[]
+    if event.message.text =="第九天療程":
+        text = "啊~9這個數字好啊！情緒是很有趣的東西，有時後就像兩個自己在吵架呢..你準備在這個絕佳時機獲得第二周的法器了嗎?"
+        reply_arr.append(TextSendMessage(text))
+        line_bot_api.reply_message(
+            event.reply_token,reply_arr)
+        working_status = True
+
+def handle_readySection(event):
+    global working_status
+    reply_arr =[]
+    if event.message.text =="準備":
+        text = "關鍵詞：憤怒、傷心、不解請您挑選出一個符合您現在感受的關鍵詞並填入開頭，以第一人稱我，起筆二周奠文我感到{關鍵詞}開頭"
+        reply_arr.append(TextSendMessage(text))
+        line_bot_api.reply_message(
+            event.reply_token,reply_arr)
+        working_status = True
+
+
     
 def process_initial_response(event, chatgpt, line_bot_api):
     reply_arr = []
@@ -153,8 +186,39 @@ def process_day5_message(event, chatgpt, line_bot_api):
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
 def process_weekend_message(event, chatgpt, line_bot_api):
+
     reply_arr = []
     text = "如果想進行接下來的療程 請打<第二週療程>"
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答，以正面的方式回應我，並陪我聊聊天")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+def process_week2day1_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text = "如果想進行接下來的療程 請打<第九天療程>"
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答，以正面的方式回應我，並陪我聊聊天")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+def process_day9_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text = "嗯～我感受不到你的情緒，你<準備>獲得第二個法器了嗎? 準備好請打<準備>"
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答，以正面的方式回應我，並陪我聊聊天")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+def process_ready_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text = "若你能接受現在的自己，我們就可以準備下一階段的療程了喔 準備好請打<第十天療程>"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答，以正面的方式回應我，並陪我聊聊天")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
@@ -196,6 +260,9 @@ def handle_message(event):
     global day4State
     global day5State
     global  weekendState
+    global week2day1State
+    global day9State
+    global readyState
     if event.message.type != "text":
         return
    
@@ -230,6 +297,22 @@ def handle_message(event):
         handle_weekend(event)
         working_status = True
         weekendState = True
+    elif event.message.text == "第二週療程":
+        weekendState = False
+        handle_week2day1(event)
+        working_status = True
+        week2day1State = True
+    elif event.message.text == "第九天療程":
+        week2day1State = False
+        handle_day9(event)
+        working_status = True
+        day9State= True
+
+    elif event.message.text == "準備":
+        day9State = False
+        handle_readySection(event)
+        working_status = True
+        readyState= True
 
     
 
@@ -249,7 +332,14 @@ def handle_message(event):
         day5State =False
     if working_status and weekendState:
         process_weekend_message(event, chatgpt, line_bot_api)
-        weekendState = False
+    if working_status and week2day1State:
+        process_week2day1_message(event, chatgpt, line_bot_api)
+    if working_status and day9State:
+        process_week2day1_message(event, chatgpt, line_bot_api)
+    if working_status and readyState:
+        process_ready_message(event, chatgpt, line_bot_api)
+
+
 
           
    
