@@ -18,6 +18,7 @@ working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true
 received_story =False
 isArgreed = False
 day4State = False
+day5State =False
 
 
 
@@ -80,6 +81,18 @@ def handle_day4(event):
             event.reply_token,TextMessage(text=message_text)
         )
         working_status = True
+
+def handle_day5(event):
+    global working_status
+    reply_arr =[]
+    if event.message.text =="第五天療程":
+        text = "今天是第五天，相信你的感情也有一些的沉澱，是時候為這四天做一個總結!!"
+        text1 = "關鍵詞：熱烈的 平淡的 深刻的 請您挑選出一個符合您現在感受的關鍵詞並填入信件的開頭，起筆二篇分手信{關鍵詞}我"
+        reply_arr.append(TextSendMessage(text))
+        reply_arr.append(TextSendMessage(text1))
+        line_bot_api.reply_message(
+            event.reply_token,reply_arr)
+        working_status = True
         
     
 def process_initial_response(event, chatgpt, line_bot_api):
@@ -112,12 +125,19 @@ def process_user_story(event, chatgpt, line_bot_api):
 def process_day4_message(event, chatgpt, line_bot_api):
     reply_arr = []
     text= "如果有不了解的，可以到幫助中心尋求協助入口:選單左下角(連結)"
+    text1= "如果想進行第五天療程 請打<第五天療程>"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答，回應我對儀式的感受")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
     reply_arr.append(TextSendMessage(reply_msg))
     reply_arr.append(TextSendMessage(text))
+    reply_arr.append(TextSendMessage(text1))
     line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day5_message(event, chatgpt, line_bot_api):
+    chatgpt.add_msg(
+        f"{event.message.text} 根據以上回答，以正面的方式回應我，並在最後跟我說我是一個什麼樣的人，鼓勵我可以迎接更好的的自己")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    line_bot_api.reply_message(event.reply_token, reply_msg)
 
 # domain root
 @app.route('/')
@@ -151,6 +171,7 @@ def handle_message(event):
     global received_story
     global isArgreed
     global day4State
+    global day5State
     if event.message.type != "text":
         return
    
@@ -159,8 +180,7 @@ def handle_message(event):
         working_status =True
         isArgreed =True
         #
-        
-    
+
     elif event.message.text == "寫分手信":
         handle_writeLetter(event)
         working_status = True
@@ -178,6 +198,10 @@ def handle_message(event):
         handle_day4(event)
         working_status = True
         day4State = True
+    elif event.message.text == "第五天療程":
+        handle_day5(event)
+        working_status = True
+        day5State = True
 
     
 
@@ -192,6 +216,9 @@ def handle_message(event):
     if working_status and day4State:
         process_day4_message(event, chatgpt, line_bot_api)
         day4State =False
+    if working_status and day5State:
+        process_day5_message(event, chatgpt, line_bot_api)
+        day5State =False
 
           
    
