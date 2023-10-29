@@ -144,19 +144,23 @@ def process_day4_message(event, chatgpt, line_bot_api):
     reply_arr.append(TextSendMessage(text1))
     line_bot_api.reply_message(event.reply_token, reply_arr)
 def process_day5_message(event, chatgpt, line_bot_api):
+    reply_arr = []
+    text = "如果想進行假日療程 請打<假日療程>"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答，以正面的方式回應我，並在最後跟我說我是一個什麼樣的人及鼓勵我可以迎接更好的的自己")
-    reply_gptMsg = chatgpt.get_response().replace("AI:", "", 1)
-    reply_msg = TextSendMessage(text=reply_gptMsg)
-    line_bot_api.reply_message(event.reply_token, reply_msg)
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
 def process_weekend_message(event, chatgpt, line_bot_api):
     reply_arr = []
     text = "如果想進行接下來的療程 請打<第二週療程>"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答，以正面的方式回應我，並陪我聊聊天")
-    reply_gptMsg = chatgpt.get_response().replace("AI:", "", 1)
-    reply_msg = TextSendMessage(text=reply_gptMsg)
-    line_bot_api.reply_message(event.reply_token, reply_msg)
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
 
 # domain root
 @app.route('/')
@@ -243,7 +247,7 @@ def handle_message(event):
     if working_status and day5State:
         process_day5_message(event, chatgpt, line_bot_api)
         day5State =False
-    if working_status and day5State:
+    if working_status and weekendState:
         process_weekend_message(event, chatgpt, line_bot_api)
         weekendState = False
 
