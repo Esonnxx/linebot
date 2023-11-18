@@ -421,13 +421,12 @@ def handle_message(event):
         handle_writeLetter(event)
         working_status = True
         received_story = True
-        #process_user_story(event, chatgpt, line_bot_api)
+       
     elif event.message.text == "第二天療程":
         handle_day2(event)
         working_status = True
         chit_chat_State =False
-        # 启动定时任务
-        scheduler.start()
+        
     elif event.message.text == "第三天療程":
         handle_day3(event)
         working_status = True
