@@ -234,7 +234,10 @@ def process_initial_response(event, chatgpt, line_bot_api):
 def process_chit_chat(event, chatgpt, line_bot_api):
     chatgpt.add_msg(f"{event.message.text} 根據以上這段故事 跟我閒聊")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
-    line_bot_api.reply_message(event.reply_token, reply_msg)
+
+    msg= [TextSendMessage(text=reply_msg)]
+
+    line_bot_api.reply_message(event.reply_token, msg)
 
 
 def process_user_story(event, chatgpt, line_bot_api):
