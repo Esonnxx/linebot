@@ -59,9 +59,9 @@ def handle_agreement(event):
 def handle_writeLetter(event):
     global working_status
     if event.message.text =="寫分手信":
-        line_bot_api.reply_message(
+        """line_bot_api.reply_message(
             event.reply_token,
-            TextMessage(text="試著選一個關鍵詞來寫一封分手信吧!請不要發出去，只有你我知道，請選擇一個關鍵詞:熱烈的 平淡的 深刻的 以我們有過XX的戀情，來開頭"))
+            TextMessage(text="試著選一個關鍵詞來寫一封分手信吧!請不要發出去，只有你我知道，請選擇一個關鍵詞:熱烈的 平淡的 深刻的 以我們有過XX的戀情，來開頭"))"""
         # 發送圖片訊息
         image_url = "https://i.ibb.co/VSym9Ns/image.jpg"  # 請替換成你的圖片 URL
         image_message = ImageSendMessage(
