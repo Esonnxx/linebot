@@ -243,7 +243,7 @@ def process_chit_chat(event, chatgpt, line_bot_api):
 def process_user_story(event, chatgpt, line_bot_api):
     reply_arr1 = []
     text = "做的好!你成功得到了一個情緒罐 。這是開啟超度靈堂所需的祭品，當集齊七個祭品，就是舉行超度儀式的時刻!"
-    chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，用對話聊天的方式詢問我在這段感情學到了什麼。請你扮演一個人設是：葬儀師、個性坦率、厭世、說話方式直接，但請不要跟我表示你的人設")
+    chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，用對話聊天的方式詢問我在這段感情學到了什麼。")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
     image_url = "https://i.ibb.co/xDCgRvx/1.jpg" 
     image_message = ImageSendMessage(
