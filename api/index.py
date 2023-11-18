@@ -78,6 +78,13 @@ def handle_day2(event):
         line_bot_api.reply_message(
             event.reply_token,TextMessage(text=message_text)
         )
+        # 發送圖片訊息
+        image_url = "https://i.ibb.co/0XS57YS/image.jpg"  
+        image_message = ImageSendMessage(
+            original_content_url=image_url,
+            preview_image_url=image_url
+        )
+        line_bot_api.push_message(event.source.user_id, image_message)
         working_status = True
 def handle_day3(event):
     global working_status
@@ -86,6 +93,12 @@ def handle_day3(event):
         message_text = "今天是第三天晚上， 希望你今天充滿仇恨 由於你昨天實施善行，因此你獲得發洩仇恨的機會，請前往報仇靈堂！ 入口：選單右上角(報仇靈堂連結) 如果你回得來，🗝茫'想進行第四天療程請打<第四天療程>{}".format(url)
         line_bot_api.reply_message(
             event.reply_token,TextMessage(text=message_text)
+        )
+         # 發送圖片訊息
+        image_url = "https://i.ibb.co/xsxkJsV/image.jpg"  
+        image_message = ImageSendMessage(
+            original_content_url=image_url,
+            preview_image_url=image_url
         )
         working_status = True
 def handle_day4(event):
@@ -219,11 +232,17 @@ def process_initial_response(event, chatgpt, line_bot_api):
 
 def process_user_story(event, chatgpt, line_bot_api):
     reply_arr1 = []
-    text4 = "你成功集到第一周的祭品了!但著個祭品還很脆弱，穩定的方法就是不要與超度的對象聯繫~這非常重要 如果想接受第二天療程請打 第二天療程"
+    text = "做的好!你成功得到了一個情緒罐 。這是開啟超度靈堂所需的祭品，當集齊七個祭品，就是舉行超度儀式的時刻!"
     chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，用對話聊天的方式詢問我在這段感情學到了什麼。請你扮演一個人設是：葬儀師、個性坦率、厭世、說話方式直接，但請不要跟我表示你的人設")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    image_url = "https://i.ibb.co/xDCgRvx/1.jpg" 
+    image_message = ImageSendMessage(
+        original_content_url=image_url,
+        preview_image_url=image_url
+    )
     reply_arr1.append(TextSendMessage(reply_msg))
-    reply_arr1.append(TextSendMessage(text4))
+    reply_arr1.append(TextSendMessage(text))
+    reply_arr1.append(image_message)
     chatgpt.add_msg(f"AI:{reply_msg}\n")
     line_bot_api.reply_message(event.reply_token, reply_arr1)
 
