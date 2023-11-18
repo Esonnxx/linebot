@@ -68,7 +68,7 @@ def handle_writeLetter(event):
             original_content_url=image_url,
             preview_image_url=image_url
         )
-        line_bot_api.push_message(event.source.user_id, image_message)
+        line_bot_api.reply_message(event.reply_token, image_message)
         working_status = True
 def handle_day2(event):
     global working_status
