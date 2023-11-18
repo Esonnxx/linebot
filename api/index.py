@@ -1,7 +1,7 @@
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 from api.chatgpt import ChatGPT
 from apscheduler.schedulers.background import BackgroundScheduler
 from linebot.models.events import FollowEvent, MessageEvent, TextMessage
@@ -62,6 +62,13 @@ def handle_writeLetter(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextMessage(text="試著選一個關鍵詞來寫一封分手信吧!請不要發出去，只有你我知道，請選擇一個關鍵詞:熱烈的 平淡的 深刻的 以我們有過XX的戀情，來開頭"))
+        # 發送圖片訊息
+        image_url = "https://ibb.co/0MNt2Xx"  # 請替換成你的圖片 URL
+        image_message = ImageSendMessage(
+            original_content_url=image_url,
+            preview_image_url=image_url
+        )
+        line_bot_api.push_message(event.source.user_id, image_message)
         working_status = True
 def handle_day2(event):
     global working_status
