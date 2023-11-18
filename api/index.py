@@ -28,6 +28,7 @@ day11State =False
 day12State =False
 day13State = False
 day14State = False
+chit_chat_State = False
 
 
 app = Flask(__name__)
@@ -230,6 +231,11 @@ def process_initial_response(event, chatgpt, line_bot_api):
     
 
 
+def process_chit_chat(event, chatgpt, line_bot_api):
+    chatgpt.add_msg(f"{event.message.text} 根據以上這段故事 跟我閒聊")
+    reply_msg = chatgpt.get_response().replace("AI:", "", 1)
+    line_bot_api.reply_message(event.reply_token, reply_msg)
+
 
 def process_user_story(event, chatgpt, line_bot_api):
     reply_arr1 = []
@@ -401,6 +407,7 @@ def handle_message(event):
     global day12State
     global day13State
     global day14State
+    global chit_chat_State
     if event.message.type != "text":
         return
    
@@ -418,6 +425,7 @@ def handle_message(event):
     elif event.message.text == "第二天療程":
         handle_day2(event)
         working_status = True
+        chit_chat_State =False
         # 启动定时任务
         scheduler.start()
     elif event.message.text == "第三天療程":
@@ -489,6 +497,11 @@ def handle_message(event):
     if  working_status and received_story:
         process_user_story(event, chatgpt, line_bot_api)
         received_story = False
+        chit_chat_State =True
+    
+    if working_status and chit_chat_State:
+        process_chit_chat(event, chatgpt, line_bot_api)
+    
 
     if working_status and day4State:
         process_day4_message(event, chatgpt, line_bot_api)
