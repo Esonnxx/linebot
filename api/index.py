@@ -100,6 +100,7 @@ def handle_day3(event):
             original_content_url=image_url,
             preview_image_url=image_url
         )
+        line_bot_api.push_message(event.source.user_id, image_message)
         working_status = True
 def handle_day4(event):
     global working_status
