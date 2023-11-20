@@ -74,7 +74,7 @@ def handle_writeLetter(event):
 def handle_day2(event):
     global working_status
     #url = "http://benevolence.page.s3-website-ap-northeast-1.amazonaws.com/"
-    if event.message.text =="🗝平平淡淡才是真":
+    if event.message.text =="平平淡淡才是真":
         reply_arr =[]
         message_text = "今天是第二天，我們需要完成四十九天的等待與儀式。要多做善行以維持天平的穩定，試試到善行靈堂看看吧~入口：選單左上角(善行靈堂連結)"
         text1 = "🗝仇愁得報"
@@ -94,7 +94,7 @@ def handle_day2(event):
 def handle_day3(event):
     global working_status
     #url = "http://benevolence.page.s3-website-ap-northeast-1.amazonaws.com/"
-    if event.message.text =="🗝仇愁得報":
+    if event.message.text =="仇愁得報":
         reply_arr =[]
         message_text = "今天是第三天， 希望你今天充滿仇恨。由於你昨天實施善行，因此你獲得發洩仇恨的機會，請前往報仇靈堂！入口：選單左上角(善行靈堂連結)"
         msg_key = "🗝茫"
@@ -113,7 +113,7 @@ def handle_day3(event):
         working_status = True
 def handle_day4(event):
     global working_status
-    if event.message.text =="🗝茫":
+    if event.message.text =="茫":
         message_text = "今天是第四天，都說養成習慣需要21天，你這3天就習慣我的存在了嗎？好好好，開個玩笑，昨天的儀式感覺如何呀？"
         line_bot_api.reply_message(
             event.reply_token,TextMessage(text=message_text)
@@ -123,7 +123,7 @@ def handle_day4(event):
 def handle_day5(event):
     global working_status
     reply_arr =[]
-    if event.message.text =="🗝fix you":
+    if event.message.text =="fix you":
         text = "今天是第五天，相信你的感情也有一些的沉澱，是時候為這四天做一個總結"
         text1 = "關鍵詞：熱烈的 平淡的 深刻的 請您挑選出一個符合您現在感受的關鍵詞並填入信件的開頭，起筆二篇分手信{關鍵詞}我"
         reply_arr.append(TextSendMessage(text))
@@ -134,7 +134,7 @@ def handle_day5(event):
 def handle_weekend(event):
     global working_status
     reply_arr =[]
-    if event.message.text =="🗝怎麼說":
+    if event.message.text =="怎麼說":
         text = "今天是我的休假日，但我還是會陪你的，今天有什麼想說的嗎？單身這幾天的你有什麼感覺？"
         reply_arr.append(TextSendMessage(text))
         line_bot_api.reply_message(
@@ -144,7 +144,7 @@ def handle_weekend(event):
 def handle_week2day1(event):
     global working_status
     reply_arr =[]
-    if event.message.text =="🗝我還是我":
+    if event.message.text =="我還是我":
         text = "恭喜！順利進入第二階段，愛情應該沒有這麼容易被釋懷吧？"
         reply_arr.append(TextSendMessage(text))
         line_bot_api.reply_message(
@@ -154,7 +154,7 @@ def handle_week2day1(event):
 def handle_day9(event):
     global working_status
     reply_arr =[]
-    if event.message.text =="🗝我可以":
+    if event.message.text =="我可以":
         text = "啊~9這個數字好啊！情緒是很有趣的東西，有時後就像兩個自己在吵架呢..你準備在這個絕佳時機獲得第二周的法器了嗎?"
         reply_arr.append(TextSendMessage(text))
         line_bot_api.reply_message(
@@ -167,7 +167,7 @@ def handle_readySection(event):
     if event.message.text =="我準備好了":
         text = "看來你已經準備好了，那我出一個任務給你，請寫一個奠文"
         text1 = "關鍵詞：憤怒、傷心、不解請您挑選出一個符合您現在感受的關鍵詞並填入開頭，以第一人稱我，起筆二周奠文我感到{關鍵詞}開頭"
-        image_url = "https://i.ibb.co/VSym9Ns/image.jpg"  # 請替換成你的圖片 URL
+        image_url = "https://i.ibb.co/Y2478bq/week2-1.jpg"  # 請替換成你的圖片 URL
         image_message = ImageSendMessage(
             original_content_url=image_url,
             preview_image_url=image_url
@@ -182,7 +182,7 @@ def handle_readySection(event):
 def handle_day10(event):
     global working_status
     reply_arr =[]
-    if event.message.text =="🗝善有善報":
+    if event.message.text =="善有善報":
         text = "今天第十天了，希望你那邊天氣好，天氣好的時候做善行效果更加，請移駕至善行靈堂，開啟您充滿善意的一天吧~"
         reply_arr.append(TextSendMessage(text))
         line_bot_api.reply_message(
@@ -191,7 +191,7 @@ def handle_day10(event):
 def handle_day11(event):
     global working_status
     reply_arr =[]
-    if event.message.text =="🗝你可以":
+    if event.message.text =="你可以":
         image_url = "https://i.ibb.co/VSym9Ns/image.jpg"  # 請替換成你的圖片 URL
         image_message = ImageSendMessage(
             original_content_url=image_url,
@@ -205,7 +205,7 @@ def handle_day11(event):
 def handle_day12(event):
     global working_status
     reply_arr =[]
-    if event.message.text =="🗝很高興認識你":
+    if event.message.text =="很高興認識你":
         text = "其實有一個問題一直想要問問你，你覺得自己是個甚麼樣的人呢？"
         reply_arr.append(TextSendMessage(text))
         line_bot_api.reply_message(
@@ -214,7 +214,7 @@ def handle_day12(event):
 def handle_day13(event):
     global working_status
     reply_arr =[]
-    if event.message.text ==" 🗝惡有惡報":
+    if event.message.text =="惡有惡報":
         text = "推進到第13天了呀，希望你那邊已經天黑了，夜晚時儀式的法力會有利，今天的報仇靈堂，為您敞開大門~如果你回得來，請說一聲大仇初報"
         reply_arr.append(TextSendMessage(text))
         line_bot_api.reply_message(
@@ -225,7 +225,7 @@ def handle_day14(event):
     global working_status
     reply_arr =[]
 
-    if event.message.text =="🗝他還好嗎":
+    if event.message.text =="他還好嗎":
         image_url = "https://i.ibb.co/PcrmVHm/week2-3.jpg"
         image_message = ImageSendMessage(
             original_content_url=image_url,
@@ -454,23 +454,23 @@ def handle_message(event):
         working_status = True
         received_story = True
        
-    elif event.message.text == "🗝平平淡淡才是真":
+    elif event.message.text == "平平淡淡才是真":
         handle_day2(event)
         working_status = True
         chit_chat_State =False
         
-    elif event.message.text == "🗝仇愁得報":
+    elif event.message.text == "仇愁得報":
         handle_day3(event)
         working_status = True
-    elif event.message.text == "🗝茫":
+    elif event.message.text == "茫":
         handle_day4(event)
         working_status = True
         day4State = True
-    elif event.message.text == "🗝fix you":
+    elif event.message.text == "fix you":
         handle_day5(event)
         working_status = True
         day5State = True
-    elif event.message.text == "🗝怎麼說":
+    elif event.message.text == "怎麼說":
         handle_weekend(event)
         working_status = True
         weekendState = True
@@ -479,7 +479,7 @@ def handle_message(event):
         handle_week2day1(event)
         working_status = True
         week2day1State = True
-    elif event.message.text == "🗝我可以":
+    elif event.message.text == "我可以":
         week2day1State = False
         handle_day9(event)
         working_status = True
@@ -490,29 +490,29 @@ def handle_message(event):
         handle_readySection(event)
         working_status = True
         readyState= True
-    elif event.message.text == "🗝善有善報":
+    elif event.message.text == "善有善報":
         readyState = False
         handle_day10(event)
         working_status = True
         day10State= True
-    elif event.message.text == "🗝你可以":
+    elif event.message.text == "你可以":
         day10State = False
         handle_day11(event)
         working_status = True
         day11State= True
-    elif event.message.text == "🗝很高興認識你":
+    elif event.message.text == "很高興認識你":
         day11State = False
         handle_day12(event)
         working_status = True
         day12State= True
 
-    elif event.message.text == " 🗝惡有惡報":
+    elif event.message.text == "惡有惡報":
         day12State = False
         handle_day13(event)
         working_status = True
         day13State= True
 
-    elif event.message.text == " 🗝他還好嗎":
+    elif event.message.text == "他還好嗎":
         day13State = False
         handle_day14(event)
         working_status = True
