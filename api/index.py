@@ -83,9 +83,9 @@ def handle_writeLetter(event):
         working_status = True
 def handle_day2(event):
     global working_status
-    url = "http://benevolence.page.s3-website-ap-northeast-1.amazonaws.com/"
+    
     if event.message.text =="第二天療程":
-        message_text = "今天是第二天，我們需要完成四十九天的等待與儀式。要多做善行以維持天平的穩定，試試到善行靈堂看看吧~入口：選單左上角(善行靈堂連結)有任何問題都可以問我🗝仇愁得報(建議晚上使用)想進行第三天療程請打<第三天療程>{}".format(url)
+        message_text = "今天是第二天，我們需要完成四十九天的等待與儀式。要多做善行以維持天平的穩定，試試到善行靈堂看看吧~入口：選單左上角(善行靈堂連結)"
         line_bot_api.reply_message(
             event.reply_token,TextMessage(text=message_text)
         )
@@ -99,9 +99,8 @@ def handle_day2(event):
         working_status = True
 def handle_day3(event):
     global working_status
-    url = "http://benevolence.page.s3-website-ap-northeast-1.amazonaws.com/"
     if event.message.text =="第三天療程":
-        message_text = "今天是第三天晚上， 希望你今天充滿仇恨 由於你昨天實施善行，因此你獲得發洩仇恨的機會，請前往報仇靈堂！ 入口：選單右上角(報仇靈堂連結) 如果你回得來，🗝茫'想進行第四天療程請打<第四天療程>{}".format(url)
+        message_text = "今天是第三天， 希望你今天充滿仇恨。由於你昨天實施善行，因此你獲得發洩仇恨的機會，請前往報仇靈堂！入口：選單左上角(善行靈堂連結)"
         line_bot_api.reply_message(
             event.reply_token,TextMessage(text=message_text)
         )
@@ -252,6 +251,7 @@ def process_chit_chat(event, chatgpt, line_bot_api):
 def process_user_story(event, chatgpt, line_bot_api):
     reply_arr1 = []
     text = "做的好!你成功得到了一個情緒罐 。這是開啟超度靈堂所需的祭品，當集齊七個祭品，就是舉行超度儀式的時刻!"
+    key = "Key-第二天療程"
     chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，用對話聊天的方式詢問我在這段感情學到了什麼。")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
     image_url = "https://i.ibb.co/xDCgRvx/1.jpg" 
@@ -262,6 +262,7 @@ def process_user_story(event, chatgpt, line_bot_api):
     reply_arr1.append(TextSendMessage(reply_msg))
     reply_arr1.append(TextSendMessage(text))
     reply_arr1.append(image_message)
+    reply_arr1.append(TextSendMessage(key))
     chatgpt.add_msg(f"AI:{reply_msg}\n")
     line_bot_api.reply_message(event.reply_token, reply_arr1)
 
