@@ -233,8 +233,12 @@ def handle_day14(event):
     global working_status
     reply_arr =[]
     if event.message.text =="第十四天療程":
-        text = "今天是第十四天，本周的任務還剩下1/3 請幫我寫一個奠文。關鍵詞：憤怒、傷心、不解請您挑選出一個符合您現在感受的關鍵詞並填入開頭，以第三人稱你，起筆二周奠文你感到{關鍵詞}開頭"
-        reply_arr.append(TextSendMessage(text))
+        image_url ="https://i.ibb.co/PcrmVHm/week2-3.jpg"
+        image_message = ImageSendMessage(
+            original_content_url=image_url,
+            preview_image_url=image_url
+        )
+        reply_arr.append(image_message)
         line_bot_api.reply_message(
             event.reply_token,reply_arr)
         working_status = True
@@ -385,11 +389,17 @@ def process_day13_message(event, chatgpt, line_bot_api):
 
 def process_day14_message(event, chatgpt, line_bot_api):
     reply_arr = []
-    text = "如果你準備好了 我們隨時可以進入下一階段的療程了喔 準備好請打<第十五天療程>"
+    image_url ="https://i.ibb.co/6BxkC88/2.jpg"
+    image_message = ImageSendMessage(
+        original_content_url=image_url,
+        preview_image_url=image_url
+    )
+    text = "🗝紅塵往事"
     chatgpt.add_msg(
         f"{event.message.text} 根據以上回答 以正面的方式回應我")
     reply_msg = chatgpt.get_response()
     reply_arr.append(TextSendMessage(reply_msg))
+    reply_arr.append(image_message)
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
 
