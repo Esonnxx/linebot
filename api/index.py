@@ -59,7 +59,7 @@ def handle_agreement(event):
             preview_image_url=image_url
         )
         text="看來你是我們需要的客戶呢，撰寫一封分手信，作為分手的一方，將你沒機會說的及對自己的期望或優點寫下，在最後用<我是...的人，我要迎接更好的自己>做結尾。注意!不能被別人看到，也絕不能跟別人說關鍵詞：熱烈的 平淡的 深刻的"
-        reply_arr.append(TextMessage(text))
+        reply_arr.append(TextSendMessage(text))
 
         line_bot_api.reply_message(
             event.reply_token,
