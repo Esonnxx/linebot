@@ -52,9 +52,18 @@ scheduler.add_job(send_message_to_users, 'interval', minutes=message_interval_mi
 def handle_agreement(event):
     global working_status
     if event.message.text =="我同意":
+        reply_arr =[]
+        image_url = "https://i.ibb.co/4fJ9kv9/week1-1.jpg"  # 請替換成你的圖片 URL
+        image_message = ImageSendMessage(
+            original_content_url=image_url,
+            preview_image_url=image_url
+        )
+        text="看來你是我們需要的客戶呢，撰寫一封分手信，作為分手的一方，將你沒機會說的及對自己的期望或優點寫下，在最後用<我是...的人，我要迎接更好的自己>做結尾。注意!不能被別人看到，也絕不能跟別人說關鍵詞：熱烈的 平淡的 深刻的"
+        reply_arr.append(TextMessage(text))
+
         line_bot_api.reply_message(
             event.reply_token,
-            TextMessage(text="看來你是我們需要的客戶呢，撰寫一封分手信，作為分手的一方，將你沒機會說的及對自己的期望或優點寫下，在最後用<我是...的人，我要迎接更好的自己>做結尾。注意!不能被別人看到，也絕不能跟別人說關鍵詞：熱烈的 平淡的 深刻的"))
+            reply_arr)
         working_status = True
         
 def handle_writeLetter(event):
