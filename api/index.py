@@ -236,7 +236,7 @@ def process_initial_response(event, chatgpt, line_bot_api):
     
     # 給予第一個回應
     line_bot_api.reply_message(event.reply_token, reply_arr)
-      # 設置為已收到故事的狀態
+     
     
 
 
@@ -502,7 +502,8 @@ def handle_message(event):
     
 
     if working_status and isArgreed:
-        process_initial_response(event,chatgpt ,line_bot_api)
+        process_user_story(event, chatgpt, line_bot_api)
+        received_story = False
         isArgreed =False
         
     if  working_status and received_story:
