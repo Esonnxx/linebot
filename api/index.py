@@ -85,7 +85,7 @@ def handle_day2(event):
     global working_status
     
     if event.message.text =="第二天療程":
-        message_text = "今天是第二天，我們需要完成四十九天的等待與儀式。要多做善行以維持天平的穩定，試試到善行靈堂看看吧~入口：選單左上角(善行靈堂連結)"
+        message_text = "今天是第二天，我們需要完成四十九天的等待與儀式。要多做善行以維持天平的穩定，試試到善行靈堂看看吧~入口：選單左上角(善行靈堂)"
         line_bot_api.reply_message(
             event.reply_token,TextMessage(text=message_text)
         )
@@ -100,7 +100,7 @@ def handle_day2(event):
 def handle_day3(event):
     global working_status
     if event.message.text =="第三天療程":
-        message_text = "今天是第三天， 希望你今天充滿仇恨。由於你昨天實施善行，因此你獲得發洩仇恨的機會，請前往報仇靈堂！入口：選單左上角(善行靈堂連結)"
+        message_text = "今天是第三天， 希望你今天充滿仇恨。由於你昨天實施善行，因此你獲得發洩仇恨的機會，請前往報仇靈堂！入口：選單右上角(報仇靈堂)"
         line_bot_api.reply_message(
             event.reply_token,TextMessage(text=message_text)
         )
