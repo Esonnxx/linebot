@@ -74,7 +74,7 @@ def handle_writeLetter(event):
             event.reply_token,
             TextMessage(text="試著選一個關鍵詞來寫一封分手信吧!請不要發出去，只有你我知道，請選擇一個關鍵詞:熱烈的 平淡的 深刻的 以我們有過XX的戀情，來開頭"))"""
         # 發送圖片訊息
-        image_url = "https://i.ibb.co/4fJ9kv9/week1-1.jpg"  # 請替換成你的圖片 URL
+        image_url = "https://i.ibb.co/4fJ9kv9/week1-1.jpg"  
         image_message = ImageSendMessage(
             original_content_url=image_url,
             preview_image_url=image_url
@@ -227,14 +227,13 @@ def handle_day14(event):
     
 def process_initial_response(event, chatgpt, line_bot_api):
     reply_arr = []
-    text1 = "看起來你是我們需要的客戶呢，讓我們一起超渡灰飛煙滅吧!"
-    text2 = "但...超渡需要付出一些代價的...不過不用擔心!我們不需要金錢，只要您向我們分享您的情緒，我們便能將情緒蒐集，您便能獲得靈堂所需的祭品，當集齊七個祭品，就是舉行超度儀式的時刻! 請打寫分手信"
-    chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，先安慰我並用人設詢問我在這短感情中學到了什麼?。請你扮演一個人設是：葬儀師、個性坦率、厭世、說話方式直接 \n")
+    #text1 = "看起來你是我們需要的客戶呢，讓我們一起超渡灰飛煙滅吧!"
+    #text2 = "但...超渡需要付出一些代價的...不過不用擔心!我們不需要金錢，只要您向我們分享您的情緒，我們便能將情緒蒐集，您便能獲得靈堂所需的祭品，當集齊七個祭品，就是舉行超度儀式的時刻! 請打寫分手信"
+    chatgpt.add_msg(f"{event.message.text} 根據以上這段故事，先安慰我並用人設詢問我在這短感情中學到了什麼?")
     reply_msg = chatgpt.get_response().replace("AI:", "", 1)
     chatgpt.add_msg(f"AI:{reply_msg}\n")
     reply_arr.append(TextSendMessage(reply_msg))
-    reply_arr.append(TextSendMessage(text1))
-    reply_arr.append(TextSendMessage(text2))
+    
     # 給予第一個回應
     line_bot_api.reply_message(event.reply_token, reply_arr)
       # 設置為已收到故事的狀態
