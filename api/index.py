@@ -172,11 +172,17 @@ def handle_day9(event):
 def handle_readySection(event):
     global working_status
     reply_arr =[]
+   
     if event.message.text =="我準備好了":
-        text = "看來你已經準備好了，那我出一個任務給你，請寫一個奠文"
-        text1 = "關鍵詞：憤怒、傷心、不解請您挑選出一個符合您現在感受的關鍵詞並填入開頭，以第一人稱我，起筆二周奠文我感到{關鍵詞}開頭"
+        image_url ="https://i.ibb.co/Y2478bq/week2-1.jpg"
+        text = "關鍵詞：憤怒、傷心、不解請您挑選出一個符合您現在感受的關鍵詞並填入開頭，以第一人稱我，起筆二周奠文我感到{關鍵詞}開頭"
+        image_message = ImageSendMessage(
+            original_content_url=image_url,
+            preview_image_url=image_url
+        )
         reply_arr.append(TextSendMessage(text))
-        reply_arr.append(TextSendMessage(text1))
+        reply_arr.append(image_message)
+        
         line_bot_api.reply_message(
             event.reply_token,reply_arr)
         working_status = True
@@ -194,8 +200,12 @@ def handle_day11(event):
     global working_status
     reply_arr =[]
     if event.message.text =="第十一天療程":
-        text = "今天是第十一天，本周的任務還剩下2/3 看來你已經準備好了，那我在出一個任務給你，請寫一個奠文 關鍵詞：憤怒、傷心、不解請您挑選出一個符合您現在感受的關鍵詞並填入開頭，以第二人稱你，起筆二周奠文你感到{關鍵詞}開頭"
-        reply_arr.append(TextSendMessage(text))
+        image_url ="https://i.ibb.co/c1pGMM8/week2-2.jpg"
+        image_message = ImageSendMessage(
+            original_content_url=image_url,
+            preview_image_url=image_url
+        )
+        reply_arr.append(image_message)
         line_bot_api.reply_message(
             event.reply_token,reply_arr)
         working_status = True
