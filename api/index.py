@@ -125,10 +125,17 @@ def handle_day5(event):
     global working_status
     reply_arr =[]
     if event.message.text =="第五天療程":
+        image_url = "https://i.ibb.co/tZVGQC5/week-1-2.jpg"
         text = "今天是第五天，相信你的感情也有一些的沉澱，是時候為這四天做一個總結!!"
         text1 = "關鍵詞：熱烈的 平淡的 深刻的 請您挑選出一個符合您現在感受的關鍵詞並填入信件的開頭，起筆二篇分手信{關鍵詞}我"
+        image_message = ImageSendMessage(
+        original_content_url=image_url,
+        preview_image_url=image_url
+        )
         reply_arr.append(TextSendMessage(text))
+        reply_arr.append(image_message)
         reply_arr.append(TextSendMessage(text1))
+
         line_bot_api.reply_message(
             event.reply_token,reply_arr)
         working_status = True
