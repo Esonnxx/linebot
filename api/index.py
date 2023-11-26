@@ -58,6 +58,10 @@ day20_q1 = False
 day20_q2 = False
 day20_q3 = False
 
+day21_state = False
+day21_q1 = False
+day21_q2 = False
+day21_q3 = False
 
 questions = {
     1: "你何時停止無條件地愛著你的前任？",
@@ -159,7 +163,16 @@ def send_intro_and_question_day20(event):
     # 發送介紹訊息以及下一個問題
     reply_arr.append(intro_message)
     line_bot_api.reply_message(event.reply_token, reply_arr)
+def send_intro_and_question_day21(event):
+    reply_arr = []
 
+    # 顯示問題前的訊息
+    intro_message = TextSendMessage(text="超度除了需要收集你的願與仇，也需要您提供一個爭論，作為容器空間。")
+    
+    # 發送介紹訊息以及下一個問題
+    reply_arr.append(intro_message)
+    reply_arr.append(TextSendMessage(text="哪一件事總不斷引發你們的爭執"))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
 
 def handle_agreement(event):
     global working_status
@@ -388,6 +401,11 @@ def handle_day20(event):
     user_message = event.message.text
     if user_message == "🗝如果的是":
         send_intro_and_question_day20(event)
+
+def handle_day21(event):
+    user_message = event.message.text
+    if user_message == "🗝導火線":
+        send_intro_and_question_day21(event)
     
     
     
@@ -651,6 +669,26 @@ def process_day20_key_reminder(event, line_bot_api):
     line_bot_api.reply_message(event.reply_token, reply_arr)
 
 
+
+def process_day21_question2(event, line_bot_api):
+    reply_arr = []
+    text = "他的論點是甚麼？"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day21_question3(event, line_bot_api):
+    reply_arr = []
+    text = "你的論點是甚麼？"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day21_key_reminder(event, line_bot_api):
+    reply_arr = []
+    image_url ="https://i.ibb.co/Tm5pkWY/3.jpg"
+    image_message = ImageSendMessage(
+        original_content_url=image_url,
+        preview_image_url=image_url
+        )
+    reply_arr.append(image_message)
+    line_bot_api.reply_message(event.reply_token, reply_arr)
 # domain root
 @app.route('/')
 def home():
@@ -722,6 +760,11 @@ def handle_message(event):
     global day20_q1
     global day20_q2
     
+
+    global day21_state
+    global day21_q1
+    global day21_q2
+    global day21_q3
 
     if event.message.type != "text":
         return
@@ -821,10 +864,15 @@ def handle_message(event):
         day19_state =True
         handle_day19(event)
         day19_q1 = True
-    elif event.message.text == "🗝如果的是":
+    elif event.message.text == "🗝如果的是": #day20
         day20_state =True
         handle_day20(event)
         day20_q1 = True
+    
+    elif event.message.text == "🗝導火線": #day20
+        day21_state =True
+        handle_day21(event)
+        day21_q1 = True
 
 
 
@@ -941,7 +989,19 @@ def handle_message(event):
         process_day20_key_reminder(event, line_bot_api)
         day20_q2 =False
         day20_state = False
-             
+
+    if day21_state and day21_q1:
+        process_day21_question2(event, line_bot_api)
+        day21_q1 =False
+        day21_q2 =True
+    if day21_state and day21_q2:
+        process_day21_question3(event, line_bot_api)
+        day21_q2 =False
+        day21_q3 =True
+    if day21_state and day21_q3:
+        process_day21_key_reminder(event, line_bot_api)
+        day21_q3 =False
+        day21_state = False
    
 if __name__ == "__main__":
     app.run()
