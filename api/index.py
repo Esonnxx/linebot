@@ -386,7 +386,7 @@ def handle_day19(event):
 
 def handle_day20(event):
     user_message = event.message.text
-    if user_message == "第二十天療程":
+    if user_message == "🗝如果的是":
         send_intro_and_question_day20(event)
     
     
@@ -821,7 +821,7 @@ def handle_message(event):
         day19_state =True
         handle_day19(event)
         day19_q1 = True
-    elif event.message.text == "第二十天療程":
+    elif event.message.text == "🗝如果的是":
         day20_state =True
         handle_day20(event)
         day20_q1 = True
