@@ -29,6 +29,10 @@ day12State =False
 day13State = False
 day14State = False
 chit_chat_State = False
+day15_state =False
+day15_q1 = False
+day15_q2 = False
+day15_q3 = False
 
 questions = {
     1: "你何時停止無條件地愛著你的前任？",
@@ -279,35 +283,7 @@ def handle_day15(event):
     if user_message == "第十五天療程":
         global current_question
         send_intro_and_question_day15(event, current_question)
-    elif current_question <= len(questions):
-        handle_question_answer(event, user_message)
-    else:
-        # 所有問題都已回答，可以在這裡進行其他操作
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="🗝如果的是")
-        )
-
-
-def handle_question_answer(event, user_answer):
-    global current_question
-
-    # 處理問題的回答，並相應地回應
-    # 你可以將回答存儲在 'answers' 字典中
-    answers[current_question] = user_answer
-    
-    # 更新當前問題編號
-    current_question += 1
-    
-    # 問下一個問題
-    if current_question <= len(questions):
-        send_intro_and_question_day15(event, current_question)
-    else:
-        # 所有問題都已回答，可以在這裡進行其他操作
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="🗝如果的是")
-        )
+        day15_q1 = True
     
 
     
@@ -469,6 +445,11 @@ def process_day14_message(event, chatgpt, line_bot_api):
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
 
+def process_day15_question2(event, line_bot_api):
+    reply_arr = []
+    text = "你心碎的那一刻是甚麼時候？"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
 
 
 # domain root
@@ -513,6 +494,8 @@ def handle_message(event):
     global day13State
     global day14State
     global chit_chat_State
+    global day15_state
+    global day15_q1
     if event.message.type != "text":
         return
    
@@ -591,7 +574,9 @@ def handle_message(event):
         working_status = True
         day14State= True
     elif event.message.text == "第十五天療程":
+        day15_state =True
         handle_day15(event)
+        day15_q1 = True
 
 
     
@@ -634,6 +619,8 @@ def handle_message(event):
         process_day13_message(event, chatgpt, line_bot_api)
     if working_status and day14State:
         process_day14_message(event, chatgpt, line_bot_api)
+    if day15_state and day15_q1:
+        process_day15_question2(event, line_bot_api)
 
 
 
