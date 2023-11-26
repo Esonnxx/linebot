@@ -30,6 +30,16 @@ day13State = False
 day14State = False
 chit_chat_State = False
 
+questions = {
+    1: "你何時停止無條件地愛著你的前任？",
+    2: "你心碎的那一刻是甚麼時候？",
+    3: "不是第一次發生，可能也不是最後一次。列出你最重要的五位前任：",
+    4: "🗝初始他"
+}
+
+answers = {}
+current_question = 1
+
 
 app = Flask(__name__)
 # 存储用户ID的列表
@@ -48,6 +58,26 @@ def send_message_to_users():
 # 设置定时任务，每5分钟执行一次
 scheduler.add_job(send_message_to_users, 'interval', minutes=message_interval_minutes)
 
+
+def send_intro_and_question_day15(event, question_number):
+    reply_arr = []
+
+    # 顯示問題前的訊息
+    intro_message = TextSendMessage(text="進入第三周，我想我們都彼此了解認識，這一階段需要您虔誠地釋放您內心的怨恨。")
+    
+    # 顯示問題前的圖片
+    image_url = "https://i.ibb.co/44gTVKb/week3.jpg"
+    image_message = ImageSendMessage(
+        original_content_url=image_url,
+        preview_image_url=image_url
+    )
+    
+    # 發送介紹訊息、圖片，以及下一個問題
+    reply_arr.append(intro_message)
+    reply_arr.append(image_message)
+    reply_arr.append(TextSendMessage(text=questions[question_number]))
+
+    line_bot_api.reply_message(event.reply_token, reply_arr)
 
 def handle_agreement(event):
     global working_status
@@ -244,71 +274,41 @@ def handle_day14(event):
         working_status = True
 
 def handle_day15(event):
-    user_id = event.source.user_id
     user_message = event.message.text
-    questions = {
-        1: "你何時停止無條件地愛著你的前任？",
-        2: "你心碎的那一刻是甚麼時候？",
-        3: "不是第一次發生，可能也不是最後一次。列出你最重要的五位前任：",
-        4: "🗝初始他"
-    }
-    answers = {}
-    
-    current_question = len(answers)
 
     if user_message == "第十五天療程":
-        reply_arr = []
-        next_question = questions.get(current_question + 1)
-
-        if next_question:
-            # 顯示問題前的訊息
-            intro_message = TextSendMessage(text="進入第三周，我想我們都彼此了解認識，這一階段需要您虔誠地釋放您內心的怨恨。")
-            
-            # 顯示問題前的圖片
-            image_url = "https://i.ibb.co/44gTVKb/week3.jpg"
-            image_message = ImageSendMessage(
-                original_content_url=image_url,
-                preview_image_url=image_url
-            )
-            
-            # 發送介紹訊息、圖片，以及下一個問題
-            reply_arr.append(intro_message)
-            reply_arr.append(image_message)
-            reply_arr.append(TextSendMessage(text=next_question))
-
-            line_bot_api.reply_message(event.reply_token, reply_arr)
-        else:
-            # 所有問題都已回答，可以在這裡進行其他操作
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="🗝如果的是")
-            )
-    elif current_question == 1:
-        # 處理第一個問題的回答，並相應地回應
-        # 你可以將回答存儲在 'answers' 字典中
-        answers[current_question] = user_message
-        
-        # 在提問下一個問題之前，你可能想根據回答執行一些動作
-        
-        # 更新當前問題編號
-        current_question += 1
-        
-        # 問下一個問題
-        next_question = questions.get(current_question)
-        if next_question:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=next_question)
-            )
-        else:
-            # 所有問題都已回答，可以在這裡進行其他操作
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="🗝如果的是")
-            )
+        global current_question
+        send_intro_and_question_day15(event, current_question)
+    elif current_question <= len(questions):
+        handle_question_answer(event, user_message)
     else:
-        # 處理其他情況或不必要的回答
-        pass
+        # 所有問題都已回答，可以在這裡進行其他操作
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="🗝如果的是")
+        )
+
+
+def handle_question_answer(event, user_answer):
+    global current_question
+
+    # 處理問題的回答，並相應地回應
+    # 你可以將回答存儲在 'answers' 字典中
+    answers[current_question] = user_answer
+    
+    # 更新當前問題編號
+    current_question += 1
+    
+    # 問下一個問題
+    if current_question <= len(questions):
+        send_intro_and_question_day15(event, current_question)
+    else:
+        # 所有問題都已回答，可以在這裡進行其他操作
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="🗝如果的是")
+        )
+    
 
     
 def process_initial_response(event, chatgpt, line_bot_api):
