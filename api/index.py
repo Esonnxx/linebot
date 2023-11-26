@@ -261,17 +261,20 @@ def handle_day15(event):
         next_question = questions.get(current_question + 1)
 
         if next_question:
-            text_message = TextSendMessage(text=next_question)
+            # 顯示問題前的訊息
+            intro_message = TextSendMessage(text="進入第三周，我想我們都彼此了解認識，這一階段需要您虔誠地釋放您內心的怨恨。")
             
-            text = "進入第三周，我想我們都彼此了解認識，這一階段需要您虔誠地釋放您內心的怨恨。"
+            # 顯示問題前的圖片
             image_url = "https://i.ibb.co/44gTVKb/week3.jpg"
             image_message = ImageSendMessage(
                 original_content_url=image_url,
                 preview_image_url=image_url
             )
-            reply_arr.append(TextSendMessage(text))
+            
+            # 發送介紹訊息、圖片，以及下一個問題
+            reply_arr.append(intro_message)
             reply_arr.append(image_message)
-            reply_arr.append(text_message)
+            reply_arr.append(TextSendMessage(text=next_question))
 
             line_bot_api.reply_message(event.reply_token, reply_arr)
         else:
@@ -280,10 +283,29 @@ def handle_day15(event):
                 event.reply_token,
                 TextSendMessage(text="🗝如果的是")
             )
+    elif current_question == 1:
+        # 處理第一個問題的回答，並相應地回應
+        # 你可以將回答存儲在 'answers' 字典中
+        answers[current_question] = user_message
+        
+        # 在提問下一個問題之前，你可能想根據回答執行一些動作
+        
+        # 問下一個問題
+        next_question = questions.get(current_question + 1)
+        if next_question:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=next_question)
+            )
+        else:
+            # 所有問題都已回答，可以在這裡進行其他操作
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="🗝如果的是")
+            )
     else:
-        # 多餘的回答或其他處理方式
+        # 處理其他情況或不必要的回答
         pass
-
 
     
 def process_initial_response(event, chatgpt, line_bot_api):
