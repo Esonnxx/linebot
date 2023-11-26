@@ -450,6 +450,17 @@ def process_day15_question2(event, line_bot_api):
     text = "你心碎的那一刻是甚麼時候？"
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day15_question3(event, line_bot_api):
+    reply_arr = []
+    text = "不是第一次發生，可能也不是最後一次。列出你最重要的五位前任："
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day15_key_reminder(event, line_bot_api):
+    reply_arr = []
+    text = "🗝初始他"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
 
 
 # domain root
@@ -496,6 +507,9 @@ def handle_message(event):
     global chit_chat_State
     global day15_state
     global day15_q1
+    global day15_q2
+    global day15_q3
+    
     if event.message.type != "text":
         return
    
@@ -621,6 +635,17 @@ def handle_message(event):
         process_day14_message(event, chatgpt, line_bot_api)
     if day15_state and day15_q1:
         process_day15_question2(event, line_bot_api)
+        day15_q1 =False
+        day15_q2 =True
+    if day15_state and day15_q2:
+        process_day15_question3(event, line_bot_api)
+        day15_q2 =False
+        day15_q3 =True
+    if day15_state and day15_q3:
+        process_day15_key_reminder(event, line_bot_api)
+        day15_q3 =False
+        day15_state = False
+        
 
 
 
