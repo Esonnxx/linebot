@@ -290,8 +290,11 @@ def handle_day15(event):
         
         # 在提問下一個問題之前，你可能想根據回答執行一些動作
         
+        # 更新當前問題編號
+        current_question += 1
+        
         # 問下一個問題
-        next_question = questions.get(current_question + 1)
+        next_question = questions.get(current_question)
         if next_question:
             line_bot_api.reply_message(
                 event.reply_token,
