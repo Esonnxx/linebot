@@ -38,6 +38,11 @@ day16_q1 = False
 day16_q2 = False
 day16_q3 = False
 
+day17_state = False
+day17_q1 = False
+day17_q2 = False
+day17_q3 = False
+
 questions = {
     1: "你何時停止無條件地愛著你的前任？",
     2: "你心碎的那一刻是甚麼時候？",
@@ -96,6 +101,18 @@ def send_intro_and_question_day16(event):
     reply_arr.append(intro_message)
     reply_arr.append(TextSendMessage(text="在哪種情況下，你覺得他真的很丟臉？"))
     line_bot_api.reply_message(event.reply_token, reply_arr)
+
+def send_intro_and_question_day17(event):
+    reply_arr = []
+
+    # 顯示問題前的訊息
+    intro_message = TextSendMessage(text="感情中讓你難受的戒斷反應是因為他和你曾經一起做過的事是你美好記憶裡的一部分。")
+    
+    # 發送介紹訊息以及下一個問題
+    reply_arr.append(intro_message)
+    reply_arr.append(TextSendMessage(text="他用甚麼打動你？"))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
 
 def handle_agreement(event):
     global working_status
@@ -305,6 +322,11 @@ def handle_day16(event):
         
         send_intro_and_question_day16(event)
         day15_q1 = True
+def handle_day17(event):
+    user_message = event.message.text
+    if user_message == "第十七天療程":
+        send_intro_and_question_day17(event)
+    
     
 
     
@@ -498,6 +520,22 @@ def process_day16_key_reminder(event, line_bot_api):
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
 
+def process_day17_question2(event, line_bot_api):
+    reply_arr = []
+    text = "你們第一次接吻在哪裡？"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day17_question3(event, line_bot_api):
+    reply_arr = []
+    text = "他第一次對你說他喜歡你是在哪裡？"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day17_key_reminder(event, line_bot_api):
+    reply_arr = []
+    text = "🗝心防"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
 # domain root
 @app.route('/')
 def home():
@@ -548,6 +586,11 @@ def handle_message(event):
     global day16_q1
     global day16_q2
     global day16_q3
+
+    global day17_state
+    global day17_q1
+    global day17_q2
+    global day17_q3
     
     if event.message.type != "text":
         return
@@ -634,6 +677,10 @@ def handle_message(event):
         day16_state =True
         handle_day16(event)
         day16_q1 = True
+    elif event.message.text == "第十七天療程":
+        day17_state =True
+        handle_day17(event)
+        day17_q1 = True
 
 
     
@@ -700,6 +747,19 @@ def handle_message(event):
         process_day16_key_reminder(event, line_bot_api)
         day16_q3 =False
         day16_state = False
+    
+    if day17_state and day17_q1:
+        process_day17_question2(event, line_bot_api)
+        day17_q1 =False
+        day17_q2 =True
+    if day17_state and day17_q2:
+        process_day17_question3(event, line_bot_api)
+        day17_q2 =False
+        day17_q3 =True
+    if day17_state and day17_q3:
+        process_day17_key_reminder(event, line_bot_api)
+        day17_q3 =False
+        day17_state = False
         
 
 
