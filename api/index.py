@@ -53,6 +53,11 @@ day19_q1 = False
 day19_q2 = False
 day19_q3 = False
 
+day20_state = False
+day20_q1 = False
+day20_q2 = False
+day20_q3 = False
+
 
 questions = {
     1: "你何時停止無條件地愛著你的前任？",
@@ -140,6 +145,16 @@ def send_intro_and_question_day19(event):
 
     # 顯示問題前的訊息
     intro_message = TextSendMessage(text="避免你與人界接觸過少，請你列出可以聽你說話的名單，給自己在喪失陽氣前留一條退路。")
+    
+    # 發送介紹訊息以及下一個問題
+    reply_arr.append(intro_message)
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+def send_intro_and_question_day20(event):
+    reply_arr = []
+
+    # 顯示問題前的訊息
+    intro_message = TextSendMessage(text="由於人界並不是我的可控範圍，為了確保超度的順利，希望你能提供前任最要好的朋友名單。")
     
     # 發送介紹訊息以及下一個問題
     reply_arr.append(intro_message)
@@ -368,6 +383,12 @@ def handle_day19(event):
     user_message = event.message.text
     if user_message == "第十九天療程":
         send_intro_and_question_day19(event)
+
+def handle_day20(event):
+    user_message = event.message.text
+    if user_message == "第二十天療程":
+        send_intro_and_question_day20(event)
+    
     
     
 
@@ -617,6 +638,19 @@ def process_day19_key_reminder(event, line_bot_api):
     line_bot_api.reply_message(event.reply_token, reply_arr)
 
 
+
+def process_day20_question2(event, line_bot_api):
+    reply_arr = []
+    text = "如果你遇到他們你會如何應對？"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day20_key_reminder(event, line_bot_api):
+    reply_arr = []
+    text = "🗝導火線"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+
 # domain root
 @app.route('/')
 def home():
@@ -683,6 +717,12 @@ def handle_message(event):
     global day19_q1
     global day19_q2
     global day19_q3
+
+    global day20_state
+    global day20_q1
+    global day20_q2
+    
+
     if event.message.type != "text":
         return
    
@@ -781,6 +821,10 @@ def handle_message(event):
         day19_state =True
         handle_day19(event)
         day19_q1 = True
+    elif event.message.text == "第二十天療程":
+        day20_state =True
+        handle_day20(event)
+        day20_q1 = True
 
 
 
@@ -887,12 +931,17 @@ def handle_message(event):
         process_day19_key_reminder(event, line_bot_api)
         day19_q3 =False
         day19_state = False
-        
-        
 
-
-
-          
+    
+    if day20_state and day20_q1:
+        process_day20_question2(event, line_bot_api)
+        day20_q1 =False
+        day20_q2 =True
+    if day19_state and day19_q2:
+        process_day20_key_reminder(event, line_bot_api)
+        day20_q2 =False
+        day20_state = False
+             
    
 if __name__ == "__main__":
     app.run()
