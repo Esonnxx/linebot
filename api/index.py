@@ -48,6 +48,11 @@ day18_q1 = False
 day18_q2 = False
 day18_q3 = False
 
+day19_state = False
+day19_q1 = False
+day19_q2 = False
+day19_q3 = False
+
 
 questions = {
     1: "你何時停止無條件地愛著你的前任？",
@@ -128,6 +133,16 @@ def send_intro_and_question_day18(event):
     # 發送介紹訊息以及下一個問題
     reply_arr.append(intro_message)
     reply_arr.append(TextSendMessage(text="在分手前有沒有曾經覺得自己瞎了狗眼？"))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+def send_intro_and_question_day19(event):
+    reply_arr = []
+
+    # 顯示問題前的訊息
+    intro_message = TextSendMessage(text="避免你與人界接觸過少，請你列出可以聽你說話的名單，給自己在喪失陽氣前留一條退路。")
+    
+    # 發送介紹訊息以及下一個問題
+    reply_arr.append(intro_message)
     line_bot_api.reply_message(event.reply_token, reply_arr)
 
 
@@ -348,6 +363,11 @@ def handle_day18(event):
     user_message = event.message.text
     if user_message == "第十八天療程":
         send_intro_and_question_day18(event)
+
+def handle_day19(event):
+    user_message = event.message.text
+    if user_message == "第十九天療程":
+        send_intro_and_question_day19(event)
     
     
 
@@ -574,6 +594,29 @@ def process_day18_key_reminder(event, line_bot_api):
     reply_arr.append(TextSendMessage(text))
     line_bot_api.reply_message(event.reply_token, reply_arr)
 
+
+def process_day19_question2(event, line_bot_api):
+    reply_arr = []
+    image_url ="https://i.ibb.co/mTjtq5r/week3-1.jpg"
+    image_message = ImageSendMessage(
+        original_content_url=image_url,
+        preview_image_url=image_url
+        )
+    reply_arr.append(image_message)
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+def process_day19_question3(event, line_bot_api):
+    reply_arr = []
+    text = "你會做些甚麼避免自己憂傷沉淪？"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+def process_day19_key_reminder(event, line_bot_api):
+    reply_arr = []
+    text = "🗝如果的是"
+    reply_arr.append(TextSendMessage(text))
+    line_bot_api.reply_message(event.reply_token, reply_arr)
+
+
 # domain root
 @app.route('/')
 def home():
@@ -635,6 +678,11 @@ def handle_message(event):
     global day18_q2
     global day18_q3
     
+
+    global day19_state
+    global day19_q1
+    global day19_q2
+    global day19_q3
     if event.message.type != "text":
         return
    
@@ -728,6 +776,11 @@ def handle_message(event):
         day18_state =True
         handle_day18(event)
         day18_q1 = True
+    
+    elif event.message.text == "第十九天療程":
+        day19_state =True
+        handle_day19(event)
+        day19_q1 = True
 
 
 
@@ -821,6 +874,19 @@ def handle_message(event):
         process_day18_key_reminder(event, line_bot_api)
         day18_q3 =False
         day18_state = False
+    
+    if day19_state and day19_q1:
+        process_day19_question2(event, line_bot_api)
+        day19_q1 =False
+        day19_q2 =True
+    if day19_state and day19_q2:
+        process_day19_question3(event, line_bot_api)
+        day19_q2 =False
+        day19_q3 =True
+    if day19_state and day19_q3:
+        process_day19_key_reminder(event, line_bot_api)
+        day19_q3 =False
+        day19_state = False
         
         
 
