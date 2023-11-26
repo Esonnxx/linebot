@@ -937,7 +937,7 @@ def handle_message(event):
         process_day20_question2(event, line_bot_api)
         day20_q1 =False
         day20_q2 =True
-    if day19_state and day19_q2:
+    if day20_state and day20_q2:
         process_day20_key_reminder(event, line_bot_api)
         day20_q2 =False
         day20_state = False
