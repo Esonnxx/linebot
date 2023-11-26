@@ -242,6 +242,49 @@ def handle_day14(event):
         line_bot_api.reply_message(
             event.reply_token,reply_arr)
         working_status = True
+def handle_day15(event):
+    user_id = event.source.user_id
+    user_message = event.message.text
+    questions = {
+    1: "你何時停止無條件地愛著你的前任？",
+    2: "你心碎的那一刻是甚麼時候？",
+    3: "不是第一次發生，可能也不是最後一次。列出你最重要的五位前任：",
+    4: "🗝初始他"}
+    answers = {}
+    if event.message.text =="第十五天療程":
+        reply_arr = []
+        text ="進入第三周，我想我們都彼此了解認識，這一階段需要您虔誠地釋放您內心的怨恨。"
+        image_url = "https://i.ibb.co/44gTVKb/week3.jpg" 
+        image_message = ImageSendMessage(
+        original_content_url=image_url,
+        preview_image_url=image_url
+        )
+        reply_arr.append(TextSendMessage(text))
+        reply_arr.append(image_message)
+        line_bot_api.reply_message(event.reply_token, reply_arr)
+
+
+        current_question = len(answers) 
+
+    if current_question <= len(questions):
+        answers[current_question] = user_message
+        next_question = questions.get(current_question + 1)
+
+        if next_question:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=next_question)
+            )
+        else:
+            # 所有問題都已回答，可以在這裡進行其他操作
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="🗝如果的是")
+            )
+    else:
+        # 多餘的回答或其他處理方式
+        pass
+
 
 
     
@@ -426,7 +469,6 @@ def callback():
 
     return 'OK'
 
-# 处理关注事件
 @line_handler.add(FollowEvent)
 def handle_follow(event):
     user_id = event.source.user_id
@@ -525,6 +567,8 @@ def handle_message(event):
         handle_day14(event)
         working_status = True
         day14State= True
+    elif event.message.text == "第十五天療程":
+        handle_day15(event)
 
 
     
