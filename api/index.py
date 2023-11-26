@@ -246,28 +246,26 @@ def handle_day15(event):
     user_id = event.source.user_id
     user_message = event.message.text
     questions = {
-    1: "你何時停止無條件地愛著你的前任？",
-    2: "你心碎的那一刻是甚麼時候？",
-    3: "不是第一次發生，可能也不是最後一次。列出你最重要的五位前任：",
-    4: "🗝初始他"}
+        1: "你何時停止無條件地愛著你的前任？",
+        2: "你心碎的那一刻是甚麼時候？",
+        3: "不是第一次發生，可能也不是最後一次。列出你最重要的五位前任：",
+        4: "🗝初始他"
+    }
     answers = {}
-    if event.message.text =="第十五天療程":
+    
+    current_question = len(answers)+1
+
+    if user_message == "第十五天療程":
         reply_arr = []
-        text ="進入第三周，我想我們都彼此了解認識，這一階段需要您虔誠地釋放您內心的怨恨。"
-        image_url = "https://i.ibb.co/44gTVKb/week3.jpg" 
+        text = "進入第三周，我想我們都彼此了解認識，這一階段需要您虔誠地釋放您內心的怨恨。"
+        image_url = "https://i.ibb.co/44gTVKb/week3.jpg"
         image_message = ImageSendMessage(
-        original_content_url=image_url,
-        preview_image_url=image_url
+            original_content_url=image_url,
+            preview_image_url=image_url
         )
         reply_arr.append(TextSendMessage(text))
         reply_arr.append(image_message)
         line_bot_api.reply_message(event.reply_token, reply_arr)
-
-
-        current_question = len(answers) 
-
-    if current_question <= len(questions):
-        answers[current_question] = user_message
         next_question = questions.get(current_question + 1)
 
         if next_question:
@@ -284,6 +282,7 @@ def handle_day15(event):
     else:
         # 多餘的回答或其他處理方式
         pass
+
 
 
 
