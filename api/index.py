@@ -242,6 +242,7 @@ def handle_day14(event):
         line_bot_api.reply_message(
             event.reply_token,reply_arr)
         working_status = True
+
 def handle_day15(event):
     user_id = event.source.user_id
     user_message = event.message.text
@@ -253,26 +254,26 @@ def handle_day15(event):
     }
     answers = {}
     
-    current_question = len(answers)+1
+    current_question = len(answers)
 
     if user_message == "第十五天療程":
         reply_arr = []
-        text = "進入第三周，我想我們都彼此了解認識，這一階段需要您虔誠地釋放您內心的怨恨。"
-        image_url = "https://i.ibb.co/44gTVKb/week3.jpg"
-        image_message = ImageSendMessage(
-            original_content_url=image_url,
-            preview_image_url=image_url
-        )
-        reply_arr.append(TextSendMessage(text))
-        reply_arr.append(image_message)
-        line_bot_api.reply_message(event.reply_token, reply_arr)
         next_question = questions.get(current_question + 1)
 
         if next_question:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=next_question)
+            text_message = TextSendMessage(text=next_question)
+            
+            text = "進入第三周，我想我們都彼此了解認識，這一階段需要您虔誠地釋放您內心的怨恨。"
+            image_url = "https://i.ibb.co/44gTVKb/week3.jpg"
+            image_message = ImageSendMessage(
+                original_content_url=image_url,
+                preview_image_url=image_url
             )
+            reply_arr.append(TextSendMessage(text))
+            reply_arr.append(image_message)
+            reply_arr.append(text_message)
+
+            line_bot_api.reply_message(event.reply_token, reply_arr)
         else:
             # 所有問題都已回答，可以在這裡進行其他操作
             line_bot_api.reply_message(
@@ -282,8 +283,6 @@ def handle_day15(event):
     else:
         # 多餘的回答或其他處理方式
         pass
-
-
 
 
     
